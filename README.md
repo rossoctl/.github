@@ -17,7 +17,7 @@ This is the primary marketing site for Kagenti, an open-source platform for depl
 
 Kagenti is positioned as the **infrastructure layer** beneath the agent, not a competing agent framework. The three-word positioning — *deploy, secure, govern* — anchors every section:
 
-- **Deploy:** Kubernetes-native, Ansible-automated, framework-neutral. You bring the agent; Kagenti handles workload lifecycle.
+- **Deploy:** Kubernetes-native, Helm-automated, framework-neutral. You bring the agent; Kagenti handles workload lifecycle.
 - **Secure:** Zero-trust identity via SPIFFE/SPIRE and AuthBridge, injected at deploy time. No agent code changes required.
 - **Govern:** Unified control plane, observability, and policy enforcement across all agents and tools.
 
