@@ -30,7 +30,7 @@
   <div class="banner" id="event-banner">
     <div class="container">
       <p>
-        <strong>Find Kagenti at Red Hat Summit and KubeCon NA</strong><span class="banner-detail"> — May 11–14 &amp; Nov 9–12.</span>
+        <strong>Find Kagenti at KubeCon NA</strong><span class="banner-detail"> — Nov 9–12.</span>
         <a href="#events">Learn more →</a>
       </p>
       <button class="banner-close" aria-label="Dismiss banner" onclick="dismissBanner()">×</button>
@@ -152,7 +152,7 @@
           <div class="code-panel-inner">
             <div class="code-prose">
               <h2>Install the platform.<br class="hero-br"> Own the lifecycle.</h2>
-              <p>Ansible-automated. OpenShift, upstream Kubernetes, or Kind. Security and observability are configured from first deployment, not added later.</p>
+              <p>Helm-automated. OpenShift, upstream Kubernetes, or Kind. Security and observability are configured from first deployment, not added later.</p>
               <a href="https://github.com/kagenti/kagenti/blob/main/docs/install.md" class="btn btn-ghost" rel="noopener noreferrer">Quickstart guide →</a>
             </div>
             <div class="code-blocks">
@@ -165,12 +165,18 @@
 <span class="cmd">git clone</span> https://github.com/kagenti/kagenti.git
 <span class="cmd">cd</span> kagenti
 
-<span class="cc"># Configure secrets (edit with your GitHub token, API keys, etc.)</span>
+<span class="cc"># Configure secrets (optional - edit with your GitHub token, API keys, etc.)</span>
 <span class="cmd">cp</span> deployments/envs/secret_values.yaml.example \
    deployments/envs/.secret_values.yaml
 
-<span class="cc"># Install on Kind (dev) or OpenShift (--env ocp)</span>
-deployments/ansible/run-install.sh <span class="key">--env</span> <span class="val">dev</span>
+<span class="cc"># Check out the latest release</span>
+git checkout v0.6.0
+
+<span class="cc"># Install on Kind</span>
+scripts/kind/setup-kagenti.sh --with-ui --with-spire --with-agent-sandbox --with-builds
+
+<span class="cc"># Or on OpenShift</span>
+scripts/ocp/setup-kagenti.sh --with-ui --with-agent-sandbox --with-builds
 
 <span class="cc"># Open the Kagenti dashboard</span>
 <span class="cmd">open</span> http://kagenti-ui.localtest.me:8080</code></pre>
@@ -500,13 +506,6 @@ kubectl logs -f deployment/slack-researcher -n &lt;namespace&gt;</code></pre>
         <div class="credentials-grid">
 
           <div class="credential-block featured">
-            <h3>Red Hat Summit 2026</h3>
-            <p><strong>Look for Kagenti at Red Hat Summit in Atlanta.</strong></p>
-            <p class="cred-meta">May 11–14, 2026</p>
-            <a href="https://www.redhat.com/en/summit" class="cred-link" rel="noopener noreferrer">Event details →</a>
-          </div>
-
-          <div class="credential-block featured">
             <h3>KubeCon North America 2026</h3>
             <p><strong>Find us at KubeCon + CloudNativeCon NA this fall.</strong></p>
             <p class="cred-meta">November 9–12, 2026</p>
@@ -527,6 +526,13 @@ kubectl logs -f deployment/slack-researcher -n &lt;namespace&gt;</code></pre>
         </div>
 
         <div class="credentials-grid">
+
+          <div class="credential-block">
+            <h3>Red Hat Summit 2026</h3>
+            <p><strong>Kagenti at Red Hat Summit in Atlanta.</strong></p>
+            <p class="cred-meta">May 11–14, 2026</p>
+            <a href="https://www.redhat.com/en/summit" class="cred-link" rel="noopener noreferrer">Event details →</a>
+          </div>
 
           <div class="credential-block">
             <h3>KubeCon NA 2025</h3>
