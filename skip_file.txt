@@ -1,0 +1,2 @@
+# URLs matching these patterns will be skipped by the link checker.
+# Each line is a regular expression.
