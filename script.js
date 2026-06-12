@@ -17,11 +17,22 @@ function dismissBanner() {
   try { sessionStorage.setItem('kagenti-banner-dismissed', '1'); } catch (e) {}
 }
 
+function dismissRebrandBanner() {
+  var banner = document.getElementById('rebrand-banner');
+  if (!banner) return;
+  banner.classList.add('hidden');
+  try { sessionStorage.setItem('kagenti-rebrand-dismissed', '1'); } catch (e) {}
+}
+
 (function () {
   try {
     if (sessionStorage.getItem('kagenti-banner-dismissed') === '1') {
       var banner = document.getElementById('event-banner');
       if (banner) banner.classList.add('hidden');
+    }
+    if (sessionStorage.getItem('kagenti-rebrand-dismissed') === '1') {
+      var rebrand = document.getElementById('rebrand-banner');
+      if (rebrand) rebrand.classList.add('hidden');
     }
   } catch (e) {}
 })();
