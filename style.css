@@ -169,6 +169,29 @@ body {
 .banner-close:hover { opacity: 1; }
 .banner.hidden { display: none; }
 
+/* Rebrand announcement banner (Kagenti → Rosso) */
+.banner-rebrand {
+  background: #fdecec;            /* light red tint — distinct from the dark event banner */
+  color: var(--c-text);
+  border-bottom: 2px solid #ee0000;
+}
+.banner-rebrand .banner-close { color: var(--c-text); }
+.banner-rebrand a { color: #cc0000; border-bottom-color: rgba(204,0,0,0.4); }
+.banner-rebrand a:hover { border-bottom-color: #cc0000; }
+.rebrand-pill {
+  display: inline-block;
+  background: #cc0000;
+  color: #f9f9f7;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  margin-right: var(--sp-3);
+  vertical-align: middle;
+}
+
 /* --------------------------------------------------------------------------
    Header
    -------------------------------------------------------------------------- */
