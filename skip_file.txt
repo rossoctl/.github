@@ -1,2 +1,6 @@
 # URLs matching these patterns will be skipped by the link checker.
 # Each line is a regular expression.
+
+# Google Fonts preconnect hints — bare domains return 404 when fetched directly
+fonts\.googleapis\.com
+fonts\.gstatic\.com
