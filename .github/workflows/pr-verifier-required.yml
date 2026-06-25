@@ -17,14 +17,14 @@ jobs:
       pull-requests: read
 
     steps:
-      - name: Enforce PR title prefixes (case-sensitive)
+      - name: Enforce PR title prefixes
         uses: deepakputhraya/action-pr-title@3864bebc79c5f829d25dd42d3c6579d040b0ef16 # v1.0.2
         with:
           # Union of conventional and template-derived categories
           allowed_prefixes: >
             Build,Chore,CI,Docs,Feat,Fix,Perf,Refactor,Revert,Style,Test,
             Feature,Bug fix,Proposal,Breaking change,Other,Other/Misc
-          prefix_case_sensitive: true
+          prefix_case_sensitive: false
           min_length: 8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
