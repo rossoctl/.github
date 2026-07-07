@@ -1,0 +1,221 @@
+---
+slug: /
+sidebar_label: Welcome to rossoctl
+title: Welcome to rossoctl
+---
+
+import Link from '@docusaurus/Link';
+
+<div className="rosso-landing">
+
+<div className="row rosso-hero">
+<div className="col col--6">
+
+# The secure platform for AI agents on Kubernetes
+
+<div className="rosso-intro">
+
+rossoctl gives every AI agent a cryptographic identity, scoped access, and isolation — on Kubernetes, on infrastructure you control. It works with agents built in any framework, from LangGraph and CrewAI to any A2A-compatible container, and builds on open standards: A2A between agents, MCP for tools. Open source under Apache 2.0, started at IBM Research with Red Hat.
+
+Deploying an agent is easy. Running an autonomous one — one that acts on its own, calls tools, and rewrites its own workspace — safely, on infrastructure you control, is not. That's the problem we work on, in the open.
+
+</div>
+
+<div className="margin-top--md margin-bottom--lg">
+  <Link className="button button--lg cta-primary margin-right--sm" to="/docs/category/getting-started">Get started</Link>
+  <Link className="button button--lg cta-secondary" to="/docs/category/concepts">Read the concepts →</Link>
+</div>
+
+</div>
+<div className="col col--6">
+
+<div className="cortex-box">
+  <div className="cortex-title">RossoCortex — in-network controller</div>
+  <div className="cortex-center">
+    <div className="cortex-center-name">RossoCortex</div>
+    <div className="cortex-center-sub">Framework-agnostic · In-network · Zero agent code changes</div>
+  </div>
+  <div className="cortex-primitives">
+    <div className="cortex-prim">
+      <div className="cortex-prim-name">Agent Identity</div>
+      <div className="cortex-prim-desc">Binds a SPIFFE identity attested by SPIRE to verified agent attributes.</div>
+    </div>
+    <div className="cortex-prim">
+      <div className="cortex-prim-name">AuthBridge</div>
+      <div className="cortex-prim-desc">Secure delegated access for user→agent, agent→agent, and agent→tool.</div>
+    </div>
+    <div className="cortex-prim">
+      <div className="cortex-prim-name">AI Access Control</div>
+      <div className="cortex-prim-desc">Derives and maintains permissions from agent properties, goals, and context.</div>
+    </div>
+    <div className="cortex-prim">
+      <div className="cortex-prim-name">SPARC</div>
+      <div className="cortex-prim-desc">Analyzes and optimizes tool calls for improved reliability.</div>
+    </div>
+    <div className="cortex-prim cortex-prim--full">
+      <div className="cortex-prim-name">ContextLens</div>
+      <div className="cortex-prim-desc">Fine-tunes LLM calls via transparent context summarization and dynamic masking.</div>
+    </div>
+  </div>
+  <div className="cortex-deploy-row">
+    <div className="cortex-deploy-tag"><strong>iRuntime Operator</strong>Kubernetes integration</div>
+    <div className="cortex-deploy-tag"><strong>Agent Runtime Contract</strong>Zero-touch wrapping</div>
+    <div className="cortex-deploy-tag"><strong>Container / VM</strong>Sandbox options</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+## Areas driving the research agenda
+
+Each area owns a domain of open questions, and all of it happens in the open — read the docs, join the discussion, or contribute.
+
+<div className="row">
+
+  <div className="col col--6 margin-bottom--lg">
+    <div className="ra-card">
+      <span className="ra-tag ra-tag--identity">Identity &amp; Access Control</span>
+      <h3>Cryptographic identity and delegated access for every agent</h3>
+      <p className="ra-statement">How does an agent prove who it is, what it's allowed to do, and on whose behalf it's acting — across user→agent, agent→agent, and agent→tool boundaries — without leaking credentials or breaking zero-trust assumptions?</p>
+      <div>
+        <div className="ra-q-title">Open questions</div>
+        <ul className="ra-q">
+          <li>Binding a workload's SPIFFE identity to its declared capabilities (Agent Card).</li>
+          <li>Delegation flows that hold up at the MCP gateway without weakening zero trust.</li>
+          <li>Runtime attestation for a dynamically spawned sub-agent.</li>
+        </ul>
+      </div>
+      <div className="ra-actions">
+        <Link className="ra-action" to="/docs/security/overview">Learn more</Link>
+        <a className="ra-action" href="https://ibm.biz/kagenti-slack">Join discussion</a>
+        <a className="ra-action" href="https://github.com/kagenti/kagenti/blob/main/CONTRIBUTING.md">Contribute</a>
+      </div>
+    </div>
+  </div>
+
+  <div className="col col--6 margin-bottom--lg">
+    <div className="ra-card">
+      <span className="ra-tag ra-tag--runtime">Agent Runtime &amp; Lifecycle</span>
+      <h3>Framework-neutral deployment, scheduling, and state</h3>
+      <p className="ra-statement">How do you deploy, schedule, and manage agents built on any framework — LangGraph, CrewAI, AG2, or custom — on Kubernetes, without changing agent code and without losing state across sessions or restarts?</p>
+      <div>
+        <div className="ra-q-title">Open questions</div>
+        <ul className="ra-q">
+          <li>The minimal Agent Runtime Contract that works across every framework.</li>
+          <li>Long-running sessions without giving up scale-to-zero and fast activation.</li>
+          <li>State recovery when an agent pod is evicted mid-task.</li>
+        </ul>
+      </div>
+      <div className="ra-actions">
+        <Link className="ra-action" to="/docs/concepts/agents">Learn more</Link>
+        <a className="ra-action" href="https://ibm.biz/kagenti-slack">Join discussion</a>
+        <a className="ra-action" href="https://github.com/kagenti/kagenti/blob/main/CONTRIBUTING.md">Contribute</a>
+      </div>
+    </div>
+  </div>
+
+  <div className="col col--6 margin-bottom--lg">
+    <div className="ra-card">
+      <span className="ra-tag ra-tag--security">Security &amp; Enforcement</span>
+      <h3>Bounded execution and network enforcement for autonomous agents</h3>
+      <p className="ra-statement">Autonomous agents need bounded execution — constrained egress, isolated filesystems, session-scoped access — so a compromised or misbehaving agent can't exfiltrate data or move laterally across the platform.</p>
+      <div>
+        <div className="ra-q-title">Open questions</div>
+        <ul className="ra-q">
+          <li>The right granularity for a per-agent network egress policy.</li>
+          <li>Enforceable proxy routing without the overhead of iptables interception.</li>
+          <li>Multi-tenant sandbox access with verifiable isolation.</li>
+        </ul>
+      </div>
+      <div className="ra-actions">
+        <Link className="ra-action" to="/docs/guides/sandbox-agents">Learn more</Link>
+        <a className="ra-action" href="https://ibm.biz/kagenti-slack">Join discussion</a>
+        <a className="ra-action" href="https://github.com/kagenti/kagenti/blob/main/CONTRIBUTING.md">Contribute</a>
+      </div>
+    </div>
+  </div>
+
+  <div className="col col--6 margin-bottom--lg">
+    <div className="ra-card">
+      <span className="ra-tag ra-tag--observability">Observability &amp; Audit</span>
+      <h3>End-to-end traceability across inference, tools, and policy</h3>
+      <p className="ra-statement">Observing an agent means correlating LLM calls, tool invocations, network hops, and authorization decisions into one causal trace — ideally without instrumenting agent code — and keeping it useful for audit.</p>
+      <div>
+        <div className="ra-q-title">Open questions</div>
+        <ul className="ra-q">
+          <li>The minimal instrumentation surface for a framework-neutral runtime.</li>
+          <li>Correlating a tool call back to the originating agent and user session.</li>
+          <li>Tracing authorization decisions alongside inference, without leaking data.</li>
+        </ul>
+      </div>
+      <div className="ra-actions">
+        <Link className="ra-action" to="/docs/observability/overview">Learn more</Link>
+        <a className="ra-action" href="https://ibm.biz/kagenti-slack">Join discussion</a>
+        <a className="ra-action" href="https://github.com/kagenti/kagenti/blob/main/CONTRIBUTING.md">Contribute</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+## Key capabilities
+
+What rossoctl gives you — and what each lets you do. It works with agents from any framework, runs on Kubernetes, and needs no changes to your agent code.
+
+<div className="row kc-grid">
+  <div className="col col--6 margin-bottom--md">
+    <div className="kc-item">
+      <div className="kc-name">SPIFFE/SPIRE workload identity</div>
+      <div className="kc-desc">Every agent gets a rotating cryptographic identity — no shared API keys or static secrets to leak.</div>
+    </div>
+  </div>
+  <div className="col col--6 margin-bottom--md">
+    <div className="kc-item">
+      <div className="kc-name">Token exchange — AuthBridge (RFC 8693)</div>
+      <div className="kc-desc">Agents act on a user's behalf with short-lived, audience-scoped tokens instead of standing credentials.</div>
+    </div>
+  </div>
+  <div className="col col--6 margin-bottom--md">
+    <div className="kc-item">
+      <div className="kc-name">Capability-intersection authorization</div>
+      <div className="kc-desc">An agent can only do what the user <em>and</em> the agent are both allowed to — never the union of the two.</div>
+    </div>
+  </div>
+  <div className="col col--6 margin-bottom--md">
+    <div className="kc-item">
+      <div className="kc-name">Container + VM sandbox isolation</div>
+      <div className="kc-desc">Run self-modifying or untrusted agents without risking the host or other tenants.</div>
+    </div>
+  </div>
+  <div className="col col--6 margin-bottom--md">
+    <div className="kc-item">
+      <div className="kc-name">MCP Gateway with auth injection</div>
+      <div className="kc-desc">Route every tool call through one authenticated, audited front door — agents never hold tool credentials.</div>
+    </div>
+  </div>
+  <div className="col col--6 margin-bottom--md">
+    <div className="kc-item">
+      <div className="kc-name">A2A protocol</div>
+      <div className="kc-desc">Agents discover and call each other across frameworks over an open standard.</div>
+    </div>
+  </div>
+  <div className="col col--6 margin-bottom--md">
+    <div className="kc-item">
+      <div className="kc-name">Multi-LLM proxy (LiteLLM)</div>
+      <div className="kc-desc">Switch or mix 15+ model providers without touching agent code.</div>
+    </div>
+  </div>
+  <div className="col col--6 margin-bottom--md">
+    <div className="kc-item">
+      <div className="kc-name">Tracing — Phoenix + OpenTelemetry</div>
+      <div className="kc-desc">See every LLM call, tool call, and authorization decision correlated in one trace.</div>
+    </div>
+  </div>
+</div>
+
+## Get involved
+
+See the [Workstreams](workstreams.md) for active areas and who's working on them, and [Onboarding](onboarding.md) to start contributing.
+
+</div>
