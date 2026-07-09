@@ -60,6 +60,16 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           // "Edit this page" points at the source of truth upstream.
           editUrl: 'https://github.com/kagenti/kagenti/tree/main/docs-temp/',
+          // Versioning: the current (un-versioned) docs are the in-progress
+          // "dev" docs, shown in the header version dropdown. No released
+          // versions exist yet. When the first is cut
+          // (`npm run docusaurus docs:version 0.7`), it becomes the default
+          // "latest" and "dev" stays as the work-in-progress version.
+          versions: {
+            current: {
+              label: 'dev',
+            },
+          },
         },
         // Blog is an EXTERNAL Medium link (see navbar) — no local blog.
         blog: false,
@@ -162,9 +172,24 @@ const config: Config = {
           target: '_blank',
           rel: 'noopener noreferrer',
         },
-        // Version dropdown intentionally omitted while versioning is off (it
-        // showed a "Next" label). Re-add `{ type: 'docsVersionDropdown',
-        // position: 'right' }` here after cutting the first version.
+        {
+          // Docs version selector, on the left after Blog. Rendered as an
+          // explicit dropdown (caret + menu) because Docusaurus collapses its
+          // built-in `docsVersionDropdown` to a plain link while only one
+          // version exists. Selecting "dev" opens the first docs page
+          // (Getting Started). When v0.7 is cut, replace this with
+          // `{ type: 'docsVersionDropdown', position: 'left' }` — it will then
+          // auto-list v0.7 (latest) and dev.
+          type: 'dropdown',
+          label: 'dev',
+          position: 'left',
+          items: [
+            {
+              label: 'dev',
+              to: '/docs/category/getting-started',
+            },
+          ],
+        },
         {
           // Rendered as a GitHub icon (see .header-github-link in custom.css).
           href: 'https://github.com/kagenti/kagenti',
