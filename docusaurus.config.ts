@@ -215,27 +215,20 @@ const config: Config = {
         width: 22,
         height: 22,
       },
+      // Design footer: brand + a left-aligned row of doc links, no copyright.
+      // (The mock's "Intro to llm-d" is an llm-d template leftover — replaced
+      // with rossoctl-appropriate doc links.)
       links: [
         {
           items: [
-            {label: 'GitHub', href: 'https://github.com/kagenti/kagenti'},
-            {label: 'Docs', to: '/docs/category/getting-started'},
-            {
-              label: 'Blog',
-              href: 'https://medium.com/kagenti-the-agentic-platform',
-            },
-            {
-              label: 'Contributing',
-              href: 'https://github.com/kagenti/kagenti/blob/main/CONTRIBUTING.md',
-            },
-            {
-              label: 'Apache 2.0',
-              href: 'https://github.com/kagenti/kagenti/blob/main/LICENSE',
-            },
+            {label: 'Documentation', to: '/docs/category/getting-started'},
+            {label: 'Quickstart', to: '/docs/getting-started/quickstart'},
+            {label: 'Architecture', to: '/docs/concepts/architecture'},
+            {label: 'Guides', to: '/docs/category/guides'},
+            {label: 'Contributing', to: '/contributing'},
           ],
         },
       ],
-      copyright: `© ${new Date().getFullYear()} rossoctl Contributors`,
     },
     prism: {
       theme: prismThemes.github,

@@ -314,18 +314,17 @@ h6 {
    / #000 (dark) per the tokens. */
 .rosso-footer {
   background: #000000;
-  padding: 1.75rem 1.5rem;
+  padding: 3rem 1.5rem;
 }
 [data-theme='dark'] .rosso-footer {
   background: #ffffff;
 }
+/* Brand + links grouped on the left (per the design), not space-between. */
 .rosso-footer__inner {
-  max-width: 1140px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.25rem 2rem;
+  justify-content: flex-start;
+  gap: 3rem;
   flex-wrap: wrap;
 }
 .rosso-footer__brand,
@@ -344,7 +343,7 @@ h6 {
 .rosso-footer__links {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 .rosso-footer__link {
   color: #f2f2f2;
