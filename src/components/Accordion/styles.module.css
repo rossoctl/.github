@@ -1,0 +1,83 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Each row is a full-width toggle button, reset to look like plain content. */
+.row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0.85rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.row:last-child {
+  border-bottom: 0;
+}
+
+.num {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: var(--ifm-font-color-base);
+}
+.titleRed {
+  color: #ef3030;
+}
+.row:hover .titleRed {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.desc {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ifm-font-color-base);
+}
+
+.chevron {
+  flex-shrink: 0;
+  margin-top: 0.5rem;
+  color: var(--ifm-font-color-base);
+  transition: transform 0.2s ease;
+}
+.chevronClosed {
+  transform: rotate(-90deg);
+}

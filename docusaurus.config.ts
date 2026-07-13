@@ -152,7 +152,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
-          label: 'Docs',
+          label: 'Documentation',
         },
         {
           // Single "Contributing" page rendered from the contributing docs
