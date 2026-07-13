@@ -48,6 +48,7 @@
   --ifm-hr-background-color: #e0e0e0;
   --ifm-navbar-background-color: #f2f2f2;
   --ifm-navbar-border-color: #e0e0e0;
+  --ifm-navbar-shadow: none;
   --ifm-navbar-link-color: #000000;
   --ifm-navbar-link-hover-color: #ee0000;
 
@@ -92,6 +93,7 @@
   --ifm-hr-background-color: #383838;
   --ifm-navbar-background-color: #000000;
   --ifm-navbar-border-color: #383838;
+  --ifm-navbar-shadow: none;
   --ifm-navbar-link-color: #ffffff;
   --ifm-navbar-link-hover-color: #ee0000;
 
@@ -130,9 +132,10 @@ h6 {
 }
 
 /* ===== NAVBAR ===== */
+/* Nav links: IBM Plex Sans, 16px, regular weight (per the design — not bold). */
 .navbar__link {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.25rem;
 }
 
@@ -292,7 +295,9 @@ h6 {
 }
 
 /* ===== NAVBAR (design tokens) ===== */
+/* Single light divider under the header, no drop shadow (per the design). */
 .navbar {
+  box-shadow: none;
   border-bottom: 1px solid var(--ifm-navbar-border-color);
 }
 .navbar__title {

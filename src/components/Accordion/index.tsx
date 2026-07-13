@@ -13,15 +13,16 @@ export type AccordionItem = {
 };
 
 function Chevron({open}: {open: boolean}): ReactNode {
+  // Exact chevron glyph from the designer's mock (filled path, viewBox 0 0 10 5.7).
   return (
     <svg
       className={`${styles.chevron} ${open ? '' : styles.chevronClosed}`}
-      width="16"
-      height="16"
-      viewBox="0 0 10 6"
+      width="12"
+      height="7"
+      viewBox="0 0 10 5.7"
       fill="none"
       aria-hidden="true">
-      <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" />
+      <path d="M5 5.7L0 0.7L0.7 0L5 4.3L9.3 0L10 0.7L5 5.7Z" fill="currentColor" />
     </svg>
   );
 }
