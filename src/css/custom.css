@@ -196,6 +196,20 @@ h6 {
     var(--ifm-transition-timing-default);
 }
 
+/* Live GitHub star count: icon + "N stars", follows navbar link color. */
+.header-gh-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.header-gh-stars__icon {
+  flex-shrink: 0;
+  color: var(--ifm-navbar-link-color);
+}
+.header-gh-stars:hover .header-gh-stars__icon {
+  color: var(--ifm-navbar-link-hover-color);
+}
+
 /* Slack link shows the icon plus a small "Join Slack" label to its right. */
 .header-slack-link {
   display: inline-flex;

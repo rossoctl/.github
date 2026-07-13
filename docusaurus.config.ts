@@ -191,11 +191,11 @@ const config: Config = {
           ],
         },
         {
-          // Rendered as a GitHub icon (see .header-github-link in custom.css).
-          href: 'https://github.com/kagenti/kagenti',
+          // Live GitHub star count (icon + "N stars"), fetched client-side.
+          // See src/components/GitHubStars + theme/NavbarItem/ComponentTypes.
+          type: 'custom-gitHubStars',
           position: 'right',
-          className: 'header-github-link',
-          'aria-label': 'GitHub repository',
+          repo: 'kagenti/kagenti',
         },
         {
           // Slack icon + small "Join Slack" label (see .header-slack-link in custom.css).
