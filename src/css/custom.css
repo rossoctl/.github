@@ -227,6 +227,12 @@ h6 {
 /* ===== ECOSYSTEM LANDING (welcome.mdx) =====
    Scoped to .rosso-landing so it never affects docs pages. Smaller, consistent
    heading scale; restyled CTAs; and higher-contrast cards. */
+/* Content column matches the design's ~672px, centered in the doc area. */
+.rosso-landing {
+  max-width: 672px;
+  margin-left: auto;
+  margin-right: auto;
+}
 .rosso-landing h1 {
   font-size: 3rem;
   font-weight: 500;
@@ -235,8 +241,8 @@ h6 {
   margin-bottom: 0.75rem;
 }
 .rosso-landing .rosso-intro p {
-  font-size: 1.15rem;
-  line-height: 1.6;
+  font-size: 1.5rem;
+  line-height: 1.45;
 }
 .rosso-landing h2 {
   font-size: 2rem;

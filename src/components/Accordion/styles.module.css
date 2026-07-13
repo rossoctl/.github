@@ -67,9 +67,15 @@
 }
 
 .desc {
-  font-size: 1.05rem;
-  line-height: 1.55;
+  font-size: 1.25rem;
+  line-height: 1.5;
   color: var(--ifm-font-color-base);
+}
+/* Closed Open-questions rows show a single truncated preview line. */
+.descPreview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chevron {

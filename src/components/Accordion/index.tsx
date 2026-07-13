@@ -30,10 +30,14 @@ export default function Accordion({
   title,
   items,
   redTitles = false,
+  previewWhenClosed = false,
 }: {
   title?: string;
   items: AccordionItem[];
   redTitles?: boolean;
+  // When closed: previewWhenClosed shows a truncated one-line description
+  // (Open questions); otherwise the description is hidden (Key capabilities).
+  previewWhenClosed?: boolean;
 }): ReactNode {
   const [openIndex, setOpenIndex] = useState<number>(0);
 
@@ -56,8 +60,13 @@ export default function Accordion({
                   className={`${styles.title} ${redTitles ? styles.titleRed : ''}`}>
                   {item.title}
                 </span>
-                {item.description && open && (
-                  <span className={styles.desc}>{item.description}</span>
+                {item.description && (open || previewWhenClosed) && (
+                  <span
+                    className={`${styles.desc} ${
+                      !open && previewWhenClosed ? styles.descPreview : ''
+                    }`}>
+                    {item.description}
+                  </span>
                 )}
               </span>
               <Chevron open={open} />
