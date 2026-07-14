@@ -196,11 +196,15 @@ h6 {
     var(--ifm-transition-timing-default);
 }
 
-/* Live GitHub star count: icon + "N stars", follows navbar link color. */
+/* Live GitHub star count: icon + "N stars", follows navbar link color.
+   Text matches the Slack link (0.8rem / 500) so the two right-side header
+   items read as one consistent set. */
 .header-gh-stars {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 .header-gh-stars__icon {
   flex-shrink: 0;
