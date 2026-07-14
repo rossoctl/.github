@@ -19,19 +19,45 @@ from the source of truth — the **`docs-temp/`** folder in
 - Auto-sync: a push to `docs-temp/` in `kagenti/kagenti` fires a `repository_dispatch`
   (`docs-temp-updated`) that rebuilds and redeploys this site. A daily cron is the fallback.
 
-## Local development
+## Running and testing locally
+
+### Prerequisites
+
+- **Node.js 20 or newer** (see `engines` in `package.json`).
+- **npm** — this project is npm-based; a `package-lock.json` is committed. There is
+  no `yarn.lock`/`pnpm-lock.yaml`, so don't use yarn or pnpm (they'd generate a
+  competing lockfile). Every command below is an `npm run` script from `package.json`.
+
+### Repositories to clone
+
+| Repo | Why you need it |
+|------|-----------------|
+| [`kagenti/.github`](https://github.com/kagenti/.github) (this repo) | The website itself. **Required.** |
+| [`kagenti/kagenti`](https://github.com/kagenti/kagenti) | Source of truth for the **Docs** and **Contributing** content. **Optional** — only clone it if you want to preview local, unpushed doc edits. Otherwise the sync step fetches published docs straight from GitHub. |
+
+### Steps
 
 ```sh
+# 1. Install dependencies (clean, lockfile-exact install)
 npm ci
 
-# Pull the docs. Use a local kagenti clone if you have one:
-SRC_REPO=/path/to/kagenti npm run sync-docs
-# ...or fetch from GitHub (default branch main):
+# 2. Pull the Docs + Contributing content (git-ignored, regenerated each build).
+#    a) From GitHub — no kagenti clone needed (default branch: main):
 npm run sync-docs
+#    b) ...or from a local kagenti clone, to preview edits you haven't pushed:
+SRC_REPO=/path/to/kagenti npm run sync-docs
 
-npm start            # dev server (docs/ must be synced first)
-npm run build        # production build into build/
-npm run serve        # preview the production build
+# 3. Run the dev server with hot reload (docs must be synced first — step 2)
+npm start            # http://localhost:3000/.github/  (Ctrl+C to stop)
+```
+
+To verify a production build the way CI does — this is the check that matters
+before pushing, since `npm start` is more lenient than a real build:
+
+```sh
+npm run build        # production build into build/  (fails on broken links, type errors)
+npm run serve        # preview that build locally
+npm run typecheck    # TypeScript check only (tsc, no emit)
 ```
 
 ## Deployment
