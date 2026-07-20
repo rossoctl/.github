@@ -13,7 +13,7 @@ function format(n: number): string {
 }
 
 export default function GitHubStars({
-  repo = 'kagenti/kagenti',
+  repo = 'rossoctl/rossoctl',
 }: {
   repo?: string;
   // Docusaurus passes other navbar-item props (mobile, label, …); ignored.

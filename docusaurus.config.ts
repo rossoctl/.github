@@ -16,16 +16,16 @@ const config: Config = {
   // `@docusaurus/faster` + `future: { experimental_faster: true }` if build
   // speed becomes a concern.
 
-  // === GitHub Pages: deployed from the kagenti/.github repo ===
-  // Served today at https://kagenti.github.io/.github/ (project-page path =
+  // === GitHub Pages: deployed from the rossoctl/.github repo ===
+  // Served today at https://rossoctl.github.io/.github/ (project-page path =
   // repo name ".github"). When a custom domain is added, flip baseUrl to '/'
   // and drop a static/CNAME file (change all four below together).
-  url: 'https://kagenti.github.io',
+  url: 'https://rossoctl.github.io',
   baseUrl: '/.github/',
-  organizationName: 'kagenti', // GitHub org that owns the repo
+  organizationName: 'rossoctl', // GitHub org that owns the repo
   projectName: '.github', // repo name -> drives the Pages path
 
-  // Relaxed to 'warn' so the docs synced from kagenti/kagenti:docs-temp/ (which
+  // Relaxed to 'warn' so the docs synced from rossoctl/rossoctl:docs-temp/ (which
   // still contain some cross-repo relative links) don't fail the Pages build.
   // Tighten to 'throw' once the upstream docs-temp links are cleaned up.
   onBrokenLinks: 'warn',
@@ -50,16 +50,24 @@ const config: Config = {
     [
       'classic',
       {
-        docs: {
+        // === TEMPORARY: docs hidden until ready for public launch ===
+        // The docs aren't ready to go public yet; the landing page and other
+        // pages ship first. `docs: false` stops Docusaurus from generating any
+        // /docs/* routes at all, so they're unreachable by direct URL, search,
+        // and sitemap — not merely hidden from the navbar. Doc authoring
+        // continues upstream in rossoctl/rossoctl:docs-temp/.
+        // TO RESTORE: delete `docs: false` and uncomment the block below.
+        docs: false,
+        /* docs: {
           // Read docs from a local docs-temp/ folder that mirrors the source of
           // truth 1:1. This folder is NOT committed — scripts/sync-docs.sh syncs
-          // it from kagenti/kagenti:docs-temp/ at build time. routeBasePath keeps
+          // it from rossoctl/rossoctl:docs-temp/ at build time. routeBasePath keeps
           // the public URLs at /docs/* and the navbar label is "Docs".
           path: 'docs-temp',
           routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
           // "Edit this page" points at the source of truth upstream.
-          editUrl: 'https://github.com/kagenti/kagenti/tree/main/docs-temp/',
+          editUrl: 'https://github.com/rossoctl/rossoctl/tree/main/docs-temp/',
           // Versioning: the current (un-versioned) docs are the in-progress
           // "dev" docs, shown in the header version dropdown. No released
           // versions exist yet. When the first is cut
@@ -70,7 +78,7 @@ const config: Config = {
               label: 'dev',
             },
           },
-        },
+        }, */
         // Blog is an EXTERNAL Medium link (see navbar) — no local blog.
         blog: false,
         theme: {
@@ -102,7 +110,7 @@ const config: Config = {
         editUrl: 'https://github.com/Ibrahim2595/rossoctl-website/tree/main/',
       },
     ],
-    // "Ecosystem Guide" — a faithful recreation of kagenti/ecosystem-guide,
+    // "Ecosystem Guide" — a faithful recreation of rossoctl/ecosystem-guide,
     // rebranded to rossoctl. This instance IS the site landing experience:
     // routeBasePath '/' serves it at the site root, and welcome.md (slug '/')
     // is the homepage, reproducing the upstream Welcome/README page inside the
@@ -117,7 +125,7 @@ const config: Config = {
         routeBasePath: '/',
         sidebarPath: './sidebarsEcosystem.ts',
         editUrl:
-          'https://github.com/kagenti/ecosystem-guide/tree/main/content/',
+          'https://github.com/rossoctl/ecosystem-guide/tree/main/content/',
       },
     ],
   ],
@@ -148,15 +156,17 @@ const config: Config = {
         // clicking the logo/title goes to '/', the landing page
       },
       items: [
-        {
+        // === TEMPORARY: "Documentation" nav item hidden until docs go public. ===
+        // TO RESTORE: uncomment this item (requires re-enabling `docs` in the preset above).
+        /* {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
           label: 'Documentation',
-        },
+        }, */
         {
           // Single "Contributing" page rendered from the contributing docs
-          // instance (docs layout + breadcrumbs). Content mirrors kagenti's
+          // instance (docs layout + breadcrumbs). Content mirrors rossoctl's
           // CONTRIBUTING.md.
           type: 'docSidebar',
           sidebarId: 'contributingSidebar',
@@ -172,7 +182,10 @@ const config: Config = {
           target: '_blank',
           rel: 'noopener noreferrer',
         },
-        {
+        // === TEMPORARY: "dev" version dropdown hidden until docs go public. ===
+        // It only links into /docs/*, so it's removed while docs are unpublished.
+        // TO RESTORE: uncomment this item (requires re-enabling `docs` in the preset above).
+        /* {
           // Docs version selector, on the left after Blog. Rendered as an
           // explicit dropdown (caret + menu) because Docusaurus collapses its
           // built-in `docsVersionDropdown` to a plain link while only one
@@ -189,13 +202,13 @@ const config: Config = {
               to: '/docs/category/getting-started',
             },
           ],
-        },
+        }, */
         {
           // Live GitHub star count (icon + "N stars"), fetched client-side.
           // See src/components/GitHubStars + theme/NavbarItem/ComponentTypes.
           type: 'custom-gitHubStars',
           position: 'right',
-          repo: 'kagenti/kagenti',
+          repo: 'rossoctl/rossoctl',
         },
         {
           // Slack icon + small "Join Slack" label (see .header-slack-link in custom.css).
@@ -221,10 +234,12 @@ const config: Config = {
       links: [
         {
           items: [
-            {label: 'Documentation', to: '/docs/category/getting-started'},
-            {label: 'Quickstart', to: '/docs/getting-started/quickstart'},
-            {label: 'Architecture', to: '/docs/concepts/architecture'},
-            {label: 'Guides', to: '/docs/category/guides'},
+            // === TEMPORARY: docs footer links hidden until docs go public. ===
+            // TO RESTORE: uncomment these four links.
+            // {label: 'Documentation', to: '/docs/category/getting-started'},
+            // {label: 'Quickstart', to: '/docs/getting-started/quickstart'},
+            // {label: 'Architecture', to: '/docs/concepts/architecture'},
+            // {label: 'Guides', to: '/docs/category/guides'},
             {label: 'Contributing', to: '/contributing'},
           ],
         },

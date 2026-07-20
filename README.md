@@ -1,10 +1,10 @@
 # rossoctl website
 
 The **rossoctl** website — a [Docusaurus](https://docusaurus.io/) site deployed to
-GitHub Pages from this repository (`kagenti/.github`). It hosts the landing /
+GitHub Pages from this repository (`rossoctl/.github`). It hosts the landing /
 ecosystem guide and the product **Docs**.
 
-> This repo also holds the kagenti org's community-health files (`profile/`,
+> This repo also holds the rossoctl org's community-health files (`profile/`,
 > `.github/ISSUE_TEMPLATE/`, `.github/pull_request_template.md`, and the org
 > reusable workflows). Those are unrelated to the website — leave them in place.
 
@@ -12,11 +12,11 @@ ecosystem guide and the product **Docs**.
 
 The **Docs** section is **not** committed in this repo. It is synced at build time
 from the source of truth — the **`docs-temp/`** folder in
-[`kagenti/kagenti`](https://github.com/kagenti/kagenti). Edit docs there, not here.
+[`rossoctl/rossoctl`](https://github.com/rossoctl/rossoctl). Edit docs there, not here.
 
-- `scripts/sync-docs.sh` mirrors `kagenti/kagenti:docs-temp/` → `docs/` (git-ignored).
+- `scripts/sync-docs.sh` mirrors `rossoctl/rossoctl:docs-temp/` → `docs/` (git-ignored).
 - CI runs `npm run sync-docs` before every build (see `.github/workflows/deploy.yaml`).
-- Auto-sync: a push to `docs-temp/` in `kagenti/kagenti` fires a `repository_dispatch`
+- Auto-sync: a push to `docs-temp/` in `rossoctl/rossoctl` fires a `repository_dispatch`
   (`docs-temp-updated`) that rebuilds and redeploys this site. A daily cron is the fallback.
 
 ## Running and testing locally
@@ -32,8 +32,8 @@ from the source of truth — the **`docs-temp/`** folder in
 
 | Repo | Why you need it |
 |------|-----------------|
-| [`kagenti/.github`](https://github.com/kagenti/.github) (this repo) | The website itself. **Required.** |
-| [`kagenti/kagenti`](https://github.com/kagenti/kagenti) | Source of truth for the **Docs** and **Contributing** content. **Optional** — only clone it if you want to preview local, unpushed doc edits. Otherwise the sync step fetches published docs straight from GitHub. |
+| [`rossoctl/.github`](https://github.com/rossoctl/.github) (this repo) | The website itself. **Required.** |
+| [`rossoctl/rossoctl`](https://github.com/rossoctl/rossoctl) | Source of truth for the **Docs** and **Contributing** content. **Optional** — only clone it if you want to preview local, unpushed doc edits. Otherwise the sync step fetches published docs straight from GitHub. |
 
 ### Steps
 
@@ -42,10 +42,10 @@ from the source of truth — the **`docs-temp/`** folder in
 npm ci
 
 # 2. Pull the Docs + Contributing content (git-ignored, regenerated each build).
-#    a) From GitHub — no kagenti clone needed (default branch: main):
+#    a) From GitHub — no rossoctl clone needed (default branch: main):
 npm run sync-docs
-#    b) ...or from a local kagenti clone, to preview edits you haven't pushed:
-SRC_REPO=/path/to/kagenti npm run sync-docs
+#    b) ...or from a local rossoctl clone, to preview edits you haven't pushed:
+SRC_REPO=/path/to/rossoctl npm run sync-docs
 
 # 3. Run the dev server with hot reload (docs must be synced first — step 2)
 npm start            # http://localhost:3000/.github/  (Ctrl+C to stop)
@@ -66,7 +66,7 @@ npm run typecheck    # TypeScript check only (tsc, no emit)
 `main`, on the `docs-temp-updated` dispatch, on a daily schedule, and manually via
 `workflow_dispatch`. It uploads the Docusaurus `build/` output as the Pages artifact.
 
-Served today at `https://kagenti.github.io/.github/`. To move to a custom domain,
+Served today at `https://rossoctl.github.io/.github/`. To move to a custom domain,
 set `baseUrl: '/'` in `docusaurus.config.ts` and add `static/CNAME`.
 
 ## Structure
@@ -74,7 +74,7 @@ set `baseUrl: '/'` in `docusaurus.config.ts` and add `static/CNAME`.
 | Path | Purpose |
 |------|---------|
 | `ecosystem/` | Landing + ecosystem guide (served at `/`) |
-| `docs/` | **Synced** from `kagenti/kagenti:docs-temp/` (git-ignored) |
+| `docs/` | **Synced** from `rossoctl/rossoctl:docs-temp/` (git-ignored) |
 | `contributing/` | Contributing docs instance |
 | `src/`, `static/` | Theme customizations, CSS, and assets |
 | `scripts/sync-docs.sh` | Docs sync from the source repo |

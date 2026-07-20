@@ -1,0 +1,171 @@
+/* Vertical, layered architecture diagram (modeled on aios-beyondharness.pdf p.1).
+   All colors come from Infima theme variables so it tracks light/dark; type is
+   inherited (IBM Plex Sans). Flat, thin-bordered, brand-red accents to match the
+   Accordion + card language on this page. */
+
+.diagram {
+  margin: 1.75rem 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* --- shared band (bordered container: RossoCortex, services) --- */
+.band {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+  padding: 0.9rem 1rem 1rem;
+}
+
+.bandTitle {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+/* RossoCortex is the emphasized layer: brand-red outline + heading. */
+.cortexBand {
+  border: 2px solid var(--ifm-color-primary);
+}
+.cortexBand .bandTitle {
+  color: var(--ifm-color-primary);
+}
+
+/* Row of intercept points. */
+.capRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.capBox {
+  flex: 1 1 auto;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  background: var(--ifm-background-color);
+}
+
+/* Common Intercept Abstraction: a full-width bar spanning the RossoCortex box,
+   set apart from the intercept points above by extra top margin. */
+.abstractionBar {
+  margin-top: 1.5rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  background: var(--ifm-color-emphasis-200);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Mediated targets, OUTSIDE the box: MCP Tool / API/CLI Tool / Agent, each
+   reached by its own arrow pointing down from the abstraction. */
+.targetsOut {
+  display: flex;
+  gap: 0.5rem;
+}
+.targetOut {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+.targetTag {
+  width: 100%;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+.downArrow,
+.upArrow {
+  width: 18px;
+  height: 18px;
+  color: var(--ifm-color-primary);
+  flex: 0 0 auto;
+}
+
+/* --- integration layer: SDK / Hooks / Gateways, each fronting an Agent --- */
+.integWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.layerLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.integRow {
+  display: flex;
+  gap: 0.5rem;
+}
+.integBox {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 0.6rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 10px;
+  background: var(--ifm-background-surface-color);
+}
+.integTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.agentTag {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px dashed var(--ifm-color-emphasis-300);
+  opacity: 0.75;
+}
+
+/* --- orchestration bar --- */
+.orchestration {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  background: var(--ifm-color-emphasis-200);
+}
+
+/* --- rossoctl services foundation --- */
+.servicesBand .svcRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.svcBox {
+  flex: 1 1 auto;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.25;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  background: var(--ifm-background-color);
+}
+
+/* On narrow screens, target and integration columns stack. */
+@media (max-width: 600px) {
+  .targetsOut,
+  .integRow {
+    flex-direction: column;
+  }
+}

@@ -4,10 +4,10 @@
 /.docusaurus
 /.cache-loader
 
-# SYNCED from kagenti/kagenti at build time by scripts/sync-docs.sh — not
+# SYNCED from rossoctl/rossoctl at build time by scripts/sync-docs.sh — not
 # committed here, regenerated on every build:
-#   docs-temp/           <- kagenti/kagenti:docs-temp/  (Docs section)
-#   contributing/index.md <- kagenti/kagenti:CONTRIBUTING.md (Contributing page)
+#   docs-temp/           <- rossoctl/rossoctl:docs-temp/  (Docs section)
+#   contributing/index.md <- rossoctl/rossoctl:CONTRIBUTING.md (Contributing page)
 /docs-temp
 /contributing/index.md
 

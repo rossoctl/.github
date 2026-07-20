@@ -4,7 +4,7 @@ Guide for new contributors joining the rossoctl ecosystem.
 
 ## 1. Join the Community
 
-- **GitHub** — Browse the [kagenti org](https://github.com/kagenti/) and fork any repo to start contributing
+- **GitHub** — Browse the [rossoctl org](https://github.com/rossoctl/) and fork any repo to start contributing
 - **Slack** — [Join the community](https://ibm.biz/kagenti-slack) for real-time discussion
 - **Google Group** — Join [kagenti-contributors](https://groups.google.com/g/kagenti-contributors) for shared docs and announcements
 
@@ -16,11 +16,11 @@ Guide for new contributors joining the rossoctl ecosystem.
 
 - **[Welcome to rossoctl](welcome.mdx)** — What the project is and what it covers
 - **[Workstreams](workstreams.md)** — Active areas of development, each with its own scope and contributors
-- **[rossoctl Issue Prioritization](https://github.com/orgs/kagenti/projects/8)** — Current priorities and open issues
+- **[rossoctl Issue Prioritization](https://github.com/orgs/rossoctl/projects/8)** — Current priorities and open issues
 
 ## 4. Start Contributing
 
-1. Read the [Contributing Guide](https://github.com/kagenti/kagenti/blob/main/CONTRIBUTING.md)
+1. Read the [Contributing Guide](https://github.com/rossoctl/rossoctl/blob/main/CONTRIBUTING.md)
 2. Pick a workstream that matches your interest and expertise
 3. Look for issues labeled `good first issue` or `help wanted` on the relevant repo
 4. Fork, branch, and open a PR

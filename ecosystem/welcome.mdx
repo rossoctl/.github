@@ -6,107 +6,126 @@ title: Welcome to rossoctl
 
 import Link from '@docusaurus/Link';
 import Accordion from '@site/src/components/Accordion';
+import ArchitectureDiagram from '@site/src/components/ArchitectureDiagram';
 
-export const openQuestions = [
+export const cortexFunctions = [
   {
     number: '01',
-    title: 'Cryptographic identity and delegated access for every agent',
+    title: 'Agent identity',
     description:
-      "How does an agent prove who it is, what it's allowed to do, and on whose behalf it's acting — across user→agent, agent→agent, and agent→tool boundaries — without leaking credentials or breaking zero-trust assumptions?",
+      'Every agent carries a verifiable identity, so the platform knows who is acting before it decides what they may do.',
   },
   {
     number: '02',
-    title: 'Framework-neutral deployment, scheduling, and state',
+    title: 'Authorization and access',
     description:
-      'How do you deploy, schedule, and manage agents built on any framework — LangGraph, CrewAI, AG2, or custom — on Kubernetes, without changing agent code and without losing state across sessions or restarts?',
+      'Agents run with least privilege and act by delegation, never with more authority than the user and the agent both hold.',
   },
   {
     number: '03',
-    title: 'Bounded execution and network enforcement for autonomous agents',
+    title: 'Intent-based access',
     description:
-      "Autonomous agents need bounded execution — constrained egress, isolated filesystems, session-scoped access — so a compromised or misbehaving agent can't exfiltrate data or move laterally across the platform.",
+      "Access is tied to what the user actually asked for, so an agent that drifts off task can't quietly reuse its access for something else.",
   },
   {
     number: '04',
-    title: 'End-to-end traceability across inference, tools, and policy',
+    title: 'Tool semantic validation',
     description:
-      'How do you correlate LLM calls, tool invocations, network hops, and authorization decisions into one causal trace — ideally without instrumenting agent code — and keep it useful for audit?',
-  },
-];
-
-export const keyCapabilities = [
-  {
-    number: '01',
-    title: 'SPIFFE/SPIRE workload identity',
-    description:
-      'Every agent gets a rotating cryptographic identity — no shared API keys or static secrets to leak.',
-  },
-  {
-    number: '02',
-    title: 'Token exchange — AuthBridge (RFC 8693)',
-    description:
-      "Agents act on a user's behalf with short-lived, audience-scoped tokens instead of standing credentials.",
-  },
-  {
-    number: '03',
-    title: 'Capability-intersection authorization',
-    description:
-      'An agent can only do what the user and the agent are both allowed to — never the union of the two.',
-  },
-  {
-    number: '04',
-    title: 'Container + VM sandbox isolation',
-    description:
-      'Run self-modifying or untrusted agents without risking the host or other tenants.',
+      "Tool calls are checked for correctness and meaning before they run, catching calls that are malformed or don't match the task.",
   },
   {
     number: '05',
-    title: 'MCP Gateway with auth injection',
+    title: 'Context compaction',
     description:
-      'Route every tool call through one authenticated, audited front door — agents never hold tool credentials.',
+      "The platform assembles and trims what goes into the model's context, keeping it relevant and lowering token cost.",
   },
   {
     number: '06',
-    title: 'A2A protocol',
+    title: 'Data-flow analysis',
     description:
-      'Agents discover and call each other across frameworks over an open standard.',
+      'The platform tracks where the data behind a decision came from, so its provenance can gate what the agent does next.',
   },
   {
     number: '07',
-    title: 'Multi-LLM proxy (LiteLLM)',
-    description: 'Switch or mix 15+ model providers without touching agent code.',
+    title: 'Failure recovery',
+    description:
+      'The platform detects when an agent stalls or fails and returns it to a known state instead of leaving work half-finished.',
   },
   {
     number: '08',
-    title: 'Tracing — Phoenix + OpenTelemetry',
+    title: 'User interaction',
     description:
-      'See every LLM call, tool call, and authorization decision correlated in one trace.',
+      'For high-stakes steps, a person stays in the loop and approves before the agent acts.',
+  },
+];
+
+export const rossoctlServices = [
+  {
+    number: '01',
+    title: 'Skills',
+    description:
+      'Reusable, governed capabilities an agent can draw on, versioned and controlled rather than pasted in.',
+  },
+  {
+    number: '02',
+    title: 'Tools',
+    description:
+      'Vetted tools agents reach through the platform, so every call is mediated and audited instead of made directly.',
+  },
+  {
+    number: '03',
+    title: 'Memory',
+    description:
+      "Durable memory that survives sessions and restarts, so an agent doesn't start from nothing each time.",
+  },
+  {
+    number: '04',
+    title: 'Knowledge base',
+    description:
+      'Shared, queryable knowledge agents use to ground their work in your own data.',
+  },
+  {
+    number: '05',
+    title: 'Sandboxes',
+    description:
+      'Isolated environments to run untrusted or self-modifying agents without risking the host or other tenants.',
   },
 ];
 
 <div className="rosso-landing">
 
-# A research project building the secure platform for AI agents on Kubernetes
+# Platform primitives for trustworthy AI agents
 
 <div className="rosso-intro">
 
-rossoctl gives every AI agent a cryptographic identity, scoped access, and isolation — on Kubernetes, on infrastructure you control. It works with agents built in any framework, from LangGraph and CrewAI to any A2A-compatible container, and builds on open standards: A2A between agents, MCP for tools. Open source under Apache 2.0, started at IBM Research with Red Hat.
-
-Deploying an agent is easy. Running an autonomous one — one that acts on its own, calls tools, and rewrites its own workspace — safely, on infrastructure you control, is not. That's the problem we work on, in the open.
+rossoctl is a set of platform primitives for agent security, resilience, and efficiency that platform owners can build on. It comes in two parts: RossoCortex, a data plane that mediates what agents do, and a set of services agents can call. It's open source, framework-neutral, and built on open standards, with A2A between agents and MCP for tools.
 
 </div>
 
 <div className="margin-top--md margin-bottom--lg">
-  <Link className="button button--lg cta-primary margin-right--sm" to="/docs/category/getting-started">Get started</Link>
-  <Link className="button button--lg cta-secondary" to="/docs/category/concepts">Learn more</Link>
+  {/* Primary CTAs point at the project repos (docs hidden pre-launch). */}
+  <Link className="button button--lg cta-primary margin-right--sm" href="https://github.com/rossoctl/rossoctl">Get started</Link>
+  <Link className="button button--lg cta-secondary" href="https://github.com/rossoctl/cortex">Try RossoCortex</Link>
 </div>
 
-## Open questions
+<ArchitectureDiagram />
 
-<Accordion items={openQuestions} redTitles previewWhenClosed />
+## The problem
 
-## Key capabilities
+AI agents don't behave like the cloud applications we know how to run. They decide which tools to call while they run, they don't cleanly separate data from instructions, their goals drift as context changes, and they can't reliably report what they did. Those traits make the ordinary demands of production hard to meet: failure recovery, admission control, security, and resource management.
 
-<Accordion items={keyCapabilities} />
+Agent systems fail in ways enterprise architecture wasn't built for, so they need a platform to supply the guarantees they can't supply themselves. Kubernetes solved the same kind of problem for cloud software by separating application logic from placement, scaling, and recovery. An agent platform needs an analogous split: decouple agent logic from the guarantees around admission, isolation, and failure recovery that production demands.
+
+## RossoCortex, the data plane
+
+RossoCortex is an intercept. It sits transparently between an agent and everything external it touches: models, tools, users, and other agents. From that one vantage point it enforces the guarantees agents can't enforce for themselves. It is flexible by design: it works with different agent types, including black-box harnesses, integrates with different sandboxes, and works across container network choices.
+
+<Accordion items={cortexFunctions} />
+
+## Rossoctl services
+
+The services are the building blocks agents need to do real work: skills, tools, memory, knowledge bases, and sandboxes. The focus is on capabilities that lower the risk of agentic workloads and use resources more efficiently.
+
+<Accordion items={rossoctlServices} />
 
 </div>
