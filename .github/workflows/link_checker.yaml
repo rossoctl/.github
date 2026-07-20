@@ -22,5 +22,5 @@ jobs:
         uses: filiph/linkcheck@3.0.0
         with:
           arguments: |
-            https://kagenti.github.io/.github/ \
+            https://rossoctl.github.io/.github/ \
             --skip-file skip_file.txt -e --no-check-anchors

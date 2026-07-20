@@ -1,7 +1,7 @@
 <!--
 Thanks for creating a pull request!
 
-If this is your first time, please make sure to review [CONTRIBUTING.MD](https://github.com/kagenti/kagenti/blob/main/CONTRIBUTING.md).
+If this is your first time, please make sure to review [CONTRIBUTING.MD](https://github.com/rossoctl/rossoctl/blob/main/CONTRIBUTING.md).
 
 // Begin modifications with assistance from Copilot
 ╔══════════════════════════════════════════════════════════════╗
