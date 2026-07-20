@@ -138,16 +138,6 @@ const config: Config = {
     colorMode: {
       respectPrefersColorScheme: true,
     },
-    // Understated, dismissible "work in progress" notice — a thin bar above the
-    // navbar. Replaces the earlier large in-page banner; keeps the doc layout
-    // itself untouched.
-    announcementBar: {
-      id: 'wip',
-      content: 'This site is a work in progress.',
-      backgroundColor: '#ee0000', // rossoctl brand red
-      textColor: '#ffffff',
-      isCloseable: true,
-    },
     navbar: {
       title: 'rossoctl',
       logo: {
