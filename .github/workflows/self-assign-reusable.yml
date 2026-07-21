@@ -17,7 +17,7 @@
 #     issues: write
 #   jobs:
 #     self-assign:
-#       uses: kagenti/.github/.github/workflows/self-assign-reusable.yml@main
+#       uses: rossoctl/.github/.github/workflows/self-assign-reusable.yml@main
 #       secrets:
 #         ISSUE_ASSIGN_TOKEN: ${{ secrets.ISSUE_ASSIGN_TOKEN }}
 #
@@ -54,7 +54,7 @@ on:
 jobs:
   self_assign:
     name: Assign commenter to issue
-    if: ${{ github.repository != 'kagenti/.github' }}
+    if: ${{ github.repository != 'rossoctl/.github' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -74,7 +74,7 @@ jobs:
 
   self_unassign:
     name: Unassign commenter from issue
-    if: ${{ github.repository != 'kagenti/.github' }}
+    if: ${{ github.repository != 'rossoctl/.github' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read

@@ -17,11 +17,11 @@
 #     pull-requests: write
 #   jobs:
 #     stale:
-#       uses: kagenti/.github/.github/workflows/stale.yaml@main
+#       uses: rossoctl/.github/.github/workflows/stale.yaml@main
 #
 # All inputs have sensible defaults. Override only what you need:
 #
-#   uses: kagenti/.github/.github/workflows/stale.yaml@main
+#   uses: rossoctl/.github/.github/workflows/stale.yaml@main
 #   with:
 #     days-before-stale: 90
 #     exempt-issue-labels: 'high priority,bug,keep'
@@ -62,7 +62,7 @@ on:
 jobs:
   stale:
     name: Mark and Close Stale Items
-    if: ${{ github.repository != 'kagenti/.github' }}
+    if: ${{ github.repository != 'rossoctl/.github' }}
     runs-on: ubuntu-latest
     steps:
       - name: Process stale issues and PRs
