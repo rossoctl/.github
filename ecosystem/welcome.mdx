@@ -11,48 +11,56 @@ import ArchitectureDiagram from '@site/src/components/ArchitectureDiagram';
 export const cortexFunctions = [
   {
     number: '01',
+    status: 'Ready',
     title: 'Agent identity',
     description:
       'Every agent carries a verifiable identity, so the platform knows who is acting before it decides what they may do.',
   },
   {
     number: '02',
+    status: 'Ready',
     title: 'Authorization and access',
     description:
       'Agents run with least privilege and act by delegation, never with more authority than the user and the agent both hold.',
   },
   {
     number: '03',
+    status: 'In progress',
     title: 'Intent-based access',
     description:
       "Access is tied to what the user actually asked for, so an agent that drifts off task can't quietly reuse its access for something else.",
   },
   {
     number: '04',
+    status: 'In progress',
     title: 'Tool semantic validation',
     description:
       "Tool calls are checked for correctness and meaning before they run, catching calls that are malformed or don't match the task.",
   },
   {
     number: '05',
+    status: 'Next',
     title: 'Context compaction',
     description:
       "The platform assembles and trims what goes into the model's context, keeping it relevant and lowering token cost.",
   },
   {
     number: '06',
+    status: 'Next',
     title: 'Data-flow analysis',
     description:
       'The platform tracks where the data behind a decision came from, so its provenance can gate what the agent does next.',
   },
   {
     number: '07',
+    status: 'In progress',
     title: 'Failure recovery',
     description:
       'The platform detects when an agent stalls or fails and returns it to a known state instead of leaving work half-finished.',
   },
   {
     number: '08',
+    status: 'In progress',
     title: 'User interaction',
     description:
       'For high-stakes steps, a person stays in the loop and approves before the agent acts.',

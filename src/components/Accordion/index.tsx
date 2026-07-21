@@ -1,15 +1,24 @@
 import React, {useState, type ReactNode} from 'react';
 import styles from './styles.module.css';
 
-// Accordion used on the landing page for "Open questions" and "Key capabilities",
-// adapted from the designer's mock: numbered rows, a section title, a rotating
-// chevron, row dividers, and the first item open by default. `redTitles` renders
-// the item titles in the question-title red (#ef3030) — used for Open questions.
+// Accordion used on the landing page for "Key capabilities" and "Rossoctl
+// services", adapted from the designer's mock: numbered rows, a section title, a
+// rotating chevron, row dividers, and the first item open by default. `redTitles`
+// renders the item titles in the question-title red (#ef3030). An optional
+// `status` renders a Ready / In progress / Next pill on the right of the row.
 
 export type AccordionItem = {
   number: string;
   title: string;
   description?: string;
+  status?: 'Ready' | 'In progress' | 'Next';
+};
+
+// Map a status label to its pill style.
+const STATUS_CLASS: Record<string, string> = {
+  Ready: styles.pillReady,
+  'In progress': styles.pillProgress,
+  Next: styles.pillNext,
 };
 
 function Chevron({open}: {open: boolean}): ReactNode {
@@ -70,6 +79,11 @@ export default function Accordion({
                   </span>
                 )}
               </span>
+              {item.status && (
+                <span className={`${styles.pill} ${STATUS_CLASS[item.status] ?? ''}`}>
+                  {item.status}
+                </span>
+              )}
               <Chevron open={open} />
             </button>
           );
