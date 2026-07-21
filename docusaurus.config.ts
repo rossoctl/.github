@@ -20,8 +20,12 @@ const config: Config = {
   // Served today at https://rossoctl.github.io/.github/ (project-page path =
   // repo name ".github"). When a custom domain is added, flip baseUrl to '/'
   // and drop a static/CNAME file (change all four below together).
-  url: 'https://rossoctl.github.io',
-  baseUrl: '/.github/',
+  // On GitHub Pages this is a project page served at rossoctl.github.io/.github/.
+  // On Netlify PR previews the site is served at the domain root, so baseUrl must
+  // be '/' there (Netlify sets NETLIFY=true and DEPLOY_PRIME_URL). When the
+  // rossoctl.dev custom domain is added, baseUrl becomes '/' everywhere.
+  url: process.env.DEPLOY_PRIME_URL || 'https://rossoctl.github.io',
+  baseUrl: process.env.NETLIFY ? '/' : '/.github/',
   organizationName: 'rossoctl', // GitHub org that owns the repo
   projectName: '.github', // repo name -> drives the Pages path
 
