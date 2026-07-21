@@ -35,19 +35,24 @@ else
 fi
 
 # --- 1. Docs: mirror docs-temp/ ---------------------------------------------
+# docs-temp/ may not exist upstream yet: the Docs section is currently hidden in
+# docusaurus.config (docs: false) and the source lands in a separate PR. Because
+# docs are disabled in the build, a missing docs-temp/ is NOT fatal — warn and
+# skip so the deploy still succeeds. Once docs-temp/ lands upstream and docs are
+# re-enabled, this syncs normally with no change needed here.
 UP="$SRC/$SUBDIR"
-if [[ ! -d "$UP" ]]; then
-  echo "!! source folder not found: $UP" >&2
-  exit 1
-fi
-mkdir -p "$DEST"
-rsync -a --delete --exclude '.DS_Store' "$UP"/ "$DEST"/
+if [[ -d "$UP" ]]; then
+  mkdir -p "$DEST"
+  rsync -a --delete --exclude '.DS_Store' "$UP"/ "$DEST"/
 
-# Rewrite links to README.md -> index.md (Docusaurus folder-index convention).
-find "$DEST" -name '*.md' -type f -print0 | while IFS= read -r -d '' f; do
-  sed -i.bak -E 's#\]\(([^)]*)README\.md#](\1index.md#g' "$f" && rm -f "$f.bak"
-done
-echo "==> docs-temp/ mirrors rossoctl/rossoctl:$SUBDIR ($(find "$DEST" -type f | wc -l | tr -d ' ') files)."
+  # Rewrite links to README.md -> index.md (Docusaurus folder-index convention).
+  find "$DEST" -name '*.md' -type f -print0 | while IFS= read -r -d '' f; do
+    sed -i.bak -E 's#\]\(([^)]*)README\.md#](\1index.md#g' "$f" && rm -f "$f.bak"
+  done
+  echo "==> docs-temp/ mirrors rossoctl/rossoctl:$SUBDIR ($(find "$DEST" -type f | wc -l | tr -d ' ') files)."
+else
+  echo "==> docs-temp/ not found upstream ($UP) — skipping docs sync (docs are hidden)." >&2
+fi
 
 # --- 2. Contributing: generate contributing/index.md from CONTRIBUTING.md ----
 # Transforms applied to the upstream body:
