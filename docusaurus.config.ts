@@ -16,18 +16,14 @@ const config: Config = {
   // `@docusaurus/faster` + `future: { experimental_faster: true }` if build
   // speed becomes a concern.
 
-  // === GitHub Pages: deployed from the rossoctl/.github repo ===
-  // Served today at https://rossoctl.github.io/.github/ (project-page path =
-  // repo name ".github"). When a custom domain is added, flip baseUrl to '/'
-  // and drop a static/CNAME file (change all four below together).
-  // On GitHub Pages this is a project page served at rossoctl.github.io/.github/.
-  // On Netlify PR previews the site is served at the domain root, so baseUrl must
-  // be '/' there (Netlify sets NETLIFY=true and DEPLOY_PRIME_URL). When the
-  // rossoctl.dev custom domain is added, baseUrl becomes '/' everywhere.
-  url: process.env.DEPLOY_PRIME_URL || 'https://rossoctl.github.io',
-  baseUrl: process.env.NETLIFY ? '/' : '/.github/',
+  // Published to GitHub Pages at the custom domain https://www.rossoctl.dev
+  // (HTTPS enforced; the domain lives in static/CNAME). A custom domain serves
+  // at the root, so baseUrl is '/'. Netlify PR previews also serve at the root;
+  // DEPLOY_PRIME_URL sets the preview's canonical url.
+  url: process.env.DEPLOY_PRIME_URL || 'https://www.rossoctl.dev',
+  baseUrl: '/',
   organizationName: 'rossoctl', // GitHub org that owns the repo
-  projectName: '.github', // repo name -> drives the Pages path
+  projectName: '.github', // repo name
 
   // Relaxed to 'warn' so the docs synced from rossoctl/rossoctl:docs/ (which
   // still contain some cross-repo relative links) don't fail the Pages build.
