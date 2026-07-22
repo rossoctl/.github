@@ -1,4 +1,27 @@
+# --- Docusaurus site ---
+/node_modules
+/build
+/.docusaurus
+/.cache-loader
+
+# SYNCED from rossoctl/rossoctl at build time by scripts/sync-docs.sh — not
+# committed here, regenerated on every build:
+#   docs/           <- rossoctl/rossoctl:docs/  (Docs section)
+#   contributing/index.md <- rossoctl/rossoctl:CONTRIBUTING.md (Contributing page)
+/docs
+/contributing/index.md
+
+# --- Misc / editor ---
 .DS_Store
 .vscode/
 
+# Legacy Hugo output (kept from the previous static site)
 public/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

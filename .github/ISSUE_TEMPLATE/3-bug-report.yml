@@ -38,10 +38,10 @@ body:
   - type: input
     id: version
     attributes:
-      label: Kagenti Version
+      label: Rossoctl Version
       description: |
-        If this bug is for the Kagenti platform, which version were you running? Check with:
-        helm list -n kagenti-system (app version column), or the git tag you checked out.
+        If this bug is for the Rossoctl platform, which version were you running? Check with:
+        helm list -n rossoctl-system (app version column), or the git tag you checked out.
       placeholder: "v0.6.0"
     validations:
       required: false

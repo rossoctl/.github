@@ -38,7 +38,7 @@ body:
     attributes:
       label: Success criteria
       placeholder: |
-        - [ ] (Example) X is integrated with Kagenti
+        - [ ] (Example) X is integrated with Rossoctl
     validations:
       required: true
 

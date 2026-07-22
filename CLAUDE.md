@@ -1,4 +1,4 @@
-# CLAUDE.md - Kagenti .github Repository
+# CLAUDE.md - Rossoctl .github Repository
 
 ## DCO Sign-Off (Mandatory)
 

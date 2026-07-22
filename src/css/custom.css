@@ -1,0 +1,385 @@
+/**
+ * Global styles for the rossoctl site.
+ * Typography follows the llm-d design system (IBM Plex Sans, weights, type
+ * scale); brand colors are rossoctl's own (primary red #ee0000, accent blue).
+ * All overrides go through Infima variables where possible. https://infima.dev/
+ */
+
+/* ===== TYPOGRAPHY: IBM Plex Sans (self-hosted via @fontsource) ===== */
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-sans/700.css';
+
+/* ============================================================================
+ * DESIGN TOKENS (from the designer's spec). Applied site-wide via Infima vars.
+ *   Page bg      #f2f2f2 (light) / #000000 (dark)
+ *   Borders      #e0e0e0 (light) / #383838 (dark)
+ *   Text         #000000 (light) / #ffffff (dark)
+ *   Brand red    #ee0000 (both) — logo, active nav, links, CTAs
+ *   Footer       inverts (see .rosso-footer). Question titles use #ef3030.
+ * ==========================================================================*/
+
+/* ===== LIGHT MODE ===== */
+:root {
+  /* Brand red (unchanged across themes) */
+  --ifm-color-primary: #ee0000;
+  --ifm-color-primary-dark: #d60000;
+  --ifm-color-primary-darker: #c90000;
+  --ifm-color-primary-darkest: #a60000;
+  --ifm-color-primary-light: #ff2020;
+  --ifm-color-primary-lighter: #ff3838;
+  --ifm-color-primary-lightest: #ff6b6b;
+
+  /* Surfaces & text */
+  --ifm-background-color: #f2f2f2;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-font-color-base: #000000;
+  --ifm-heading-color: #000000;
+
+  /* Links — brand red (design has no blue) */
+  --ifm-link-color: #ee0000;
+  --ifm-link-hover-color: #c90000;
+
+  /* Borders & dividers */
+  --ifm-color-emphasis-200: #e0e0e0;
+  --ifm-color-emphasis-300: #e0e0e0;
+  --ifm-toc-border-color: #e0e0e0;
+  --ifm-hr-background-color: #e0e0e0;
+  --ifm-navbar-background-color: #f2f2f2;
+  --ifm-navbar-border-color: #e0e0e0;
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-link-color: #000000;
+  --ifm-navbar-link-hover-color: #ee0000;
+
+  /* Sidebar (menu) active item: grey bg + red text */
+  --ifm-menu-color-background-active: #e0e0e0;
+  --ifm-menu-color-active: #ee0000;
+
+  /* Typography */
+  --ifm-font-family-base: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+  --ifm-font-family-monospace: 'SFMono-Regular', Consolas, 'Liberation Mono',
+    Menlo, monospace;
+  --ifm-font-size-base: 1rem;
+  --ifm-line-height-base: 1.5;
+  --ifm-code-font-size: 95%;
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* ===== DARK MODE ===== */
+[data-theme='dark'] {
+  /* Brand red stays the same in dark */
+  --ifm-color-primary: #ee0000;
+  --ifm-color-primary-dark: #d60000;
+  --ifm-color-primary-darker: #c90000;
+  --ifm-color-primary-darkest: #a60000;
+  --ifm-color-primary-light: #ff2020;
+  --ifm-color-primary-lighter: #ff3838;
+  --ifm-color-primary-lightest: #ff6b6b;
+
+  --ifm-background-color: #000000;
+  --ifm-background-surface-color: #141414;
+  --ifm-font-color-base: #ffffff;
+  --ifm-heading-color: #ffffff;
+
+  --ifm-link-color: #ee0000;
+  --ifm-link-hover-color: #ff3838;
+
+  --ifm-color-emphasis-200: #383838;
+  --ifm-color-emphasis-300: #383838;
+  --ifm-toc-border-color: #383838;
+  --ifm-hr-background-color: #383838;
+  --ifm-navbar-background-color: #000000;
+  --ifm-navbar-border-color: #383838;
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-link-color: #ffffff;
+  --ifm-navbar-link-hover-color: #ee0000;
+
+  --ifm-menu-color-background-active: #383838;
+  --ifm-menu-color-active: #ee0000;
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* ===== TYPE SCALE (matches llm-d) ===== */
+h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2.25rem;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+}
+
+/* Body text in .md/.mdx content (docs, pages) is 14px, scoped to the markdown
+   wrapper so navbar/sidebar chrome and rem-based headings are unaffected. */
+.markdown {
+  font-size: 0.875rem;
+}
+
+/* ===== NAVBAR ===== */
+/* Nav links: IBM Plex Sans, 16px, regular weight (per the design — not bold). */
+.navbar__link {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+}
+
+/* ===== SIDEBAR ===== */
+.menu__link {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+.menu__link--active {
+  font-weight: 600;
+}
+
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link,
+.theme-doc-sidebar-item-link-level-1 > .menu__link {
+  font-weight: 600;
+}
+
+/* ===== TABLE OF CONTENTS ===== */
+.table-of-contents__link {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+.table-of-contents__link--active {
+  font-weight: 600;
+}
+
+/* ===== BREADCRUMBS ===== */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbs__item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbs__link {
+  display: flex;
+  align-items: center;
+}
+
+/* ===== NAVBAR ICON LINKS (GitHub, Slack) =====
+   Rendered as color-adaptive icons (no text label). A CSS mask tints the SVG
+   with the navbar link color, so it follows both light and dark themes. */
+.header-github-link::before,
+.header-slack-link::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  display: flex;
+  background-color: var(--ifm-navbar-link-color);
+  transition: background-color var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+}
+
+/* Live GitHub star count: icon + "N stars", follows navbar link color.
+   Text matches the Slack link (0.8rem / 500) so the two right-side header
+   items read as one consistent set. */
+.header-gh-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.header-gh-stars__icon {
+  flex-shrink: 0;
+  color: var(--ifm-navbar-link-color);
+}
+.header-gh-stars:hover .header-gh-stars__icon {
+  color: var(--ifm-navbar-link-hover-color);
+}
+
+/* Slack link shows the icon plus a small "Join Slack" label to its right. */
+.header-slack-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.header-slack-link::before {
+  flex-shrink: 0;
+}
+/* Hide the auto-appended external-link arrow (keeps the Slack mask icon). */
+.header-slack-link svg {
+  display: none;
+}
+
+.header-github-link:hover::before,
+.header-slack-link:hover::before {
+  background-color: var(--ifm-navbar-link-hover-color);
+}
+
+.header-github-link::before {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.header-slack-link::before {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 15a2 2 0 1 1-2-2h2v2zm1 0a2 2 0 0 1 4 0v5a2 2 0 0 1-4 0v-5zM9 6a2 2 0 1 1 2-2v2H9zm0 1a2 2 0 0 1 0 4H4a2 2 0 0 1 0-4h5zm9 2a2 2 0 1 1 2 2h-2V9zm-1 0a2 2 0 0 1-4 0V4a2 2 0 0 1 4 0v5zm-2 9a2 2 0 1 1-2 2v-2h2zm0-1a2 2 0 0 1 0-4h5a2 2 0 0 1 0 4h-5z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 15a2 2 0 1 1-2-2h2v2zm1 0a2 2 0 0 1 4 0v5a2 2 0 0 1-4 0v-5zM9 6a2 2 0 1 1 2-2v2H9zm0 1a2 2 0 0 1 0 4H4a2 2 0 0 1 0-4h5zm9 2a2 2 0 1 1 2 2h-2V9zm-1 0a2 2 0 0 1-4 0V4a2 2 0 0 1 4 0v5zm-2 9a2 2 0 1 1-2 2v-2h2zm0-1a2 2 0 0 1 0-4h5a2 2 0 0 1 0 4h-5z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ===== ECOSYSTEM LANDING (welcome.mdx) =====
+   Scoped to .rosso-landing so it never affects docs pages. Smaller, consistent
+   heading scale; restyled CTAs; and higher-contrast cards. */
+/* Content column matches the design's ~672px, centered in the doc area. */
+.rosso-landing {
+  max-width: 672px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.rosso-landing h1 {
+  font-size: 3rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.75rem;
+}
+.rosso-landing .rosso-intro p {
+  font-size: 1.5rem;
+  line-height: 1.45;
+}
+.rosso-landing h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: 3rem;
+  margin-bottom: 0.5rem;
+}
+.rosso-landing h3 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+}
+.rosso-landing p,
+.rosso-landing li {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+/* Intro flows at the same width as the rest of the page content. */
+
+/* CTAs — red filled (Get started) + red outline (Learn more), per design */
+.rosso-landing .button {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.rosso-landing .cta-primary,
+.rosso-landing .cta-primary:visited {
+  background-color: var(--ifm-color-primary);
+  border: 1px solid var(--ifm-color-primary);
+  color: #ffffff;
+}
+.rosso-landing .cta-primary:hover {
+  background-color: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+  color: #ffffff;
+}
+.rosso-landing .cta-secondary,
+.rosso-landing .cta-secondary:visited {
+  background-color: transparent;
+  border: 1px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+.rosso-landing .cta-secondary:hover {
+  background-color: rgba(238, 0, 0, 0.08);
+  color: var(--ifm-color-primary);
+}
+
+/* ===== NAVBAR (design tokens) ===== */
+/* Single light divider under the header, no drop shadow (per the design). */
+.navbar {
+  box-shadow: none;
+  border-bottom: 1px solid var(--ifm-navbar-border-color);
+}
+.navbar__title {
+  color: var(--ifm-color-primary);
+  font-weight: 700;
+}
+.navbar__link--active {
+  color: var(--ifm-color-primary);
+}
+
+/* ===== SITE FOOTER (custom Footer component, all pages) =====
+   Inverts per theme: black bg in light mode, white bg in dark mode. The
+   rossoctl wordmark stays brand-red in both. Footer text is #f2f2f2 (light)
+   / #000 (dark) per the tokens. */
+.rosso-footer {
+  background: #000000;
+  padding: 3rem 1.5rem;
+}
+[data-theme='dark'] .rosso-footer {
+  background: #ffffff;
+}
+/* Brand + links grouped on the left (per the design), not space-between. */
+.rosso-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+.rosso-footer__brand,
+.rosso-footer__brand:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ifm-color-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+}
+.rosso-footer__brand img {
+  display: block;
+}
+.rosso-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.rosso-footer__link {
+  color: #f2f2f2;
+  font-size: 0.85rem;
+}
+[data-theme='dark'] .rosso-footer__link {
+  color: #000000;
+}
+.rosso-footer__link:hover {
+  color: inherit;
+  opacity: 0.7;
+  text-decoration: none;
+}
+.rosso-footer__copyright {
+  color: #f2f2f2;
+  opacity: 0.85;
+  font-size: 0.8rem;
+}
+[data-theme='dark'] .rosso-footer__copyright {
+  color: #000000;
+}
