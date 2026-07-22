@@ -56,7 +56,6 @@ fi
 
 # --- 2. Contributing: generate contributing/index.md from CONTRIBUTING.md ----
 # Transforms applied to the upstream body:
-#   - rebrand any lingering "Kagenti" -> "rossoctl" in upstream prose (safety net)
 #   - rewrite repo-relative links (./path, LICENSE) to absolute GitHub URLs
 #   - normalise the top H1 to "Contributing"
 CONTRIB_SRC="$SRC/CONTRIBUTING.md"
@@ -73,7 +72,6 @@ if [[ -f "$CONTRIB_SRC" ]]; then
     printf -- 'description: How to contribute to rossoctl.\n'
     printf -- '---\n\n'
     sed -E \
-      -e 's/Kagenti/rossoctl/g' \
       -e "s#\]\(\./#](${GH_BASE}/tree/main/#g" \
       -e "s#\]\(LICENSE\)#](${GH_BASE}/blob/main/LICENSE)#g" \
       -e 's/^# Contributing to this project.*/# Contributing/' \
