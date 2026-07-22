@@ -1,6 +1,6 @@
 # Netlify is used for PR deploy previews only. Production deploys go to GitHub
 # Pages via .github/workflows/deploy.yaml. The build syncs docs from
-# rossoctl/rossoctl (a no-op while docs-temp/ is absent / docs are hidden), then
+# rossoctl/rossoctl (a no-op while docs/ is absent / docs are hidden), then
 # builds the Docusaurus site. Remove this file if the repo leaves Netlify.
 [build]
   command = "npm run sync-docs && npm run build"

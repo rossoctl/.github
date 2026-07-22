@@ -29,9 +29,9 @@ const config: Config = {
   organizationName: 'rossoctl', // GitHub org that owns the repo
   projectName: '.github', // repo name -> drives the Pages path
 
-  // Relaxed to 'warn' so the docs synced from rossoctl/rossoctl:docs-temp/ (which
+  // Relaxed to 'warn' so the docs synced from rossoctl/rossoctl:docs/ (which
   // still contain some cross-repo relative links) don't fail the Pages build.
-  // Tighten to 'throw' once the upstream docs-temp links are cleaned up.
+  // Tighten to 'throw' once the upstream docs links are cleaned up.
   onBrokenLinks: 'warn',
 
   markdown: {
@@ -59,19 +59,19 @@ const config: Config = {
         // pages ship first. `docs: false` stops Docusaurus from generating any
         // /docs/* routes at all, so they're unreachable by direct URL, search,
         // and sitemap — not merely hidden from the navbar. Doc authoring
-        // continues upstream in rossoctl/rossoctl:docs-temp/.
+        // continues upstream in rossoctl/rossoctl:docs/.
         // TO RESTORE: delete `docs: false` and uncomment the block below.
         docs: false,
         /* docs: {
-          // Read docs from a local docs-temp/ folder that mirrors the source of
+          // Read docs from a local docs/ folder that mirrors the source of
           // truth 1:1. This folder is NOT committed — scripts/sync-docs.sh syncs
-          // it from rossoctl/rossoctl:docs-temp/ at build time. routeBasePath keeps
+          // it from rossoctl/rossoctl:docs/ at build time. routeBasePath keeps
           // the public URLs at /docs/* and the navbar label is "Docs".
-          path: 'docs-temp',
+          path: 'docs',
           routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
           // "Edit this page" points at the source of truth upstream.
-          editUrl: 'https://github.com/rossoctl/rossoctl/tree/main/docs-temp/',
+          editUrl: 'https://github.com/rossoctl/rossoctl/tree/main/docs/',
           // Versioning: the current (un-versioned) docs are the in-progress
           // "dev" docs, shown in the header version dropdown. No released
           // versions exist yet. When the first is cut

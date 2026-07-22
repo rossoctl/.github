@@ -6,9 +6,9 @@
 
 # SYNCED from rossoctl/rossoctl at build time by scripts/sync-docs.sh — not
 # committed here, regenerated on every build:
-#   docs-temp/           <- rossoctl/rossoctl:docs-temp/  (Docs section)
+#   docs/           <- rossoctl/rossoctl:docs/  (Docs section)
 #   contributing/index.md <- rossoctl/rossoctl:CONTRIBUTING.md (Contributing page)
-/docs-temp
+/docs
 /contributing/index.md
 
 # --- Misc / editor ---

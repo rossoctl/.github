@@ -11,13 +11,13 @@ ecosystem guide and the product **Docs**.
 ## Docs are synced, not authored here
 
 The **Docs** section is **not** committed in this repo. It is synced at build time
-from the source of truth — the **`docs-temp/`** folder in
+from the source of truth — the **`docs/`** folder in
 [`rossoctl/rossoctl`](https://github.com/rossoctl/rossoctl). Edit docs there, not here.
 
-- `scripts/sync-docs.sh` mirrors `rossoctl/rossoctl:docs-temp/` → `docs/` (git-ignored).
+- `scripts/sync-docs.sh` mirrors `rossoctl/rossoctl:docs/` → `docs/` (git-ignored).
 - CI runs `npm run sync-docs` before every build (see `.github/workflows/deploy.yaml`).
-- Auto-sync: a push to `docs-temp/` in `rossoctl/rossoctl` fires a `repository_dispatch`
-  (`docs-temp-updated`) that rebuilds and redeploys this site. A daily cron is the fallback.
+- Auto-sync: a push to `docs/` in `rossoctl/rossoctl` fires a `repository_dispatch`
+  (`docs-updated`) that rebuilds and redeploys this site. A daily cron is the fallback.
 
 ## Running and testing locally
 
@@ -63,7 +63,7 @@ npm run typecheck    # TypeScript check only (tsc, no emit)
 ## Deployment
 
 `.github/workflows/deploy.yaml` builds and publishes to GitHub Pages on push to
-`main`, on the `docs-temp-updated` dispatch, on a daily schedule, and manually via
+`main`, on the `docs-updated` dispatch, on a daily schedule, and manually via
 `workflow_dispatch`. It uploads the Docusaurus `build/` output as the Pages artifact.
 
 Served today at `https://rossoctl.github.io/.github/`. To move to a custom domain,
@@ -74,7 +74,7 @@ set `baseUrl: '/'` in `docusaurus.config.ts` and add `static/CNAME`.
 | Path | Purpose |
 |------|---------|
 | `ecosystem/` | Landing + ecosystem guide (served at `/`) |
-| `docs/` | **Synced** from `rossoctl/rossoctl:docs-temp/` (git-ignored) |
+| `docs/` | **Synced** from `rossoctl/rossoctl:docs/` (git-ignored) |
 | `contributing/` | Contributing docs instance |
 | `src/`, `static/` | Theme customizations, CSS, and assets |
 | `scripts/sync-docs.sh` | Docs sync from the source repo |

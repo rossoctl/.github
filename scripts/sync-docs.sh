@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # sync-docs.sh — populate this site from the SOURCE OF TRUTH in rossoctl/rossoctl:
-#   1. docs-temp/       -> the site's docs-temp/ (rendered as the Docs section)
+#   1. docs/       -> the site's docs/ (rendered as the Docs section)
 #   2. CONTRIBUTING.md  -> the site's contributing/index.md (Contributing page)
 #
 # Both destinations are git-ignored here and regenerated on every build (CI runs
@@ -17,7 +17,7 @@ REF="${1:-main}"
 REPO_URL="https://github.com/rossoctl/rossoctl.git" # source of truth
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SITE_DIR="$(dirname "$SCRIPT_DIR")"
-SUBDIR="docs-temp"
+SUBDIR="docs"
 DEST="$SITE_DIR/$SUBDIR"
 
 # --- Obtain the source -------------------------------------------------------
@@ -34,11 +34,11 @@ else
   echo "==> Syncing from rossoctl/rossoctl@$REF"
 fi
 
-# --- 1. Docs: mirror docs-temp/ ---------------------------------------------
-# docs-temp/ may not exist upstream yet: the Docs section is currently hidden in
+# --- 1. Docs: mirror docs/ ---------------------------------------------
+# docs/ may not exist upstream yet: the Docs section is currently hidden in
 # docusaurus.config (docs: false) and the source lands in a separate PR. Because
-# docs are disabled in the build, a missing docs-temp/ is NOT fatal — warn and
-# skip so the deploy still succeeds. Once docs-temp/ lands upstream and docs are
+# docs are disabled in the build, a missing docs/ is NOT fatal — warn and
+# skip so the deploy still succeeds. Once docs/ lands upstream and docs are
 # re-enabled, this syncs normally with no change needed here.
 UP="$SRC/$SUBDIR"
 if [[ -d "$UP" ]]; then
@@ -49,9 +49,9 @@ if [[ -d "$UP" ]]; then
   find "$DEST" -name '*.md' -type f -print0 | while IFS= read -r -d '' f; do
     sed -i.bak -E 's#\]\(([^)]*)README\.md#](\1index.md#g' "$f" && rm -f "$f.bak"
   done
-  echo "==> docs-temp/ mirrors rossoctl/rossoctl:$SUBDIR ($(find "$DEST" -type f | wc -l | tr -d ' ') files)."
+  echo "==> docs/ mirrors rossoctl/rossoctl:$SUBDIR ($(find "$DEST" -type f | wc -l | tr -d ' ') files)."
 else
-  echo "==> docs-temp/ not found upstream ($UP) — skipping docs sync (docs are hidden)." >&2
+  echo "==> docs/ not found upstream ($UP) — skipping docs sync (docs are hidden)." >&2
 fi
 
 # --- 2. Contributing: generate contributing/index.md from CONTRIBUTING.md ----
