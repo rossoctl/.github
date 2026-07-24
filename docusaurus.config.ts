@@ -116,7 +116,7 @@ const config: Config = {
     // is the homepage, reproducing the upstream Welcome/README page inside the
     // normal docs layout (left sidebar + content), NOT a custom hero. The
     // sidebar groups mirror that repo's mkdocs.yml nav. Pages: About,
-    // Onboarding, Workstreams, Key Dates, Content, Resources.
+    // Onboarding, Key Dates, Content, Resources.
     [
       '@docusaurus/plugin-content-docs',
       {

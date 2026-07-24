@@ -15,7 +15,6 @@ Guide for new contributors joining the rossoctl ecosystem.
 ## 3. Explore the Project
 
 - **[Welcome to rossoctl](welcome.mdx)** — What the project is and what it covers
-- **[Workstreams](workstreams.md)** — Active areas of development, each with its own scope and contributors
 - **[rossoctl Issue Prioritization](https://github.com/orgs/rossoctl/projects/8)** — Current priorities and open issues
 
 ## 4. Start Contributing

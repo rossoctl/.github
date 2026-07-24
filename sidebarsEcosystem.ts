@@ -5,7 +5,6 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
  * entry with id 'ecosystem' in docusaurus.config.ts). Order:
  *   Welcome to rossoctl (the landing page, /, holds the "about" content)
  *   Planning   -> Key Dates
- *   Project    -> Workstreams
  *   Community  -> Onboarding, Content, Resources
  *
  * `collapsible: false` renders each group as a permanent section header (no
@@ -19,12 +18,6 @@ const sidebars: SidebarsConfig = {
       label: 'Planning',
       collapsible: false,
       items: [{type: 'doc', id: 'key-dates', label: 'Key Dates'}],
-    },
-    {
-      type: 'category',
-      label: 'Project',
-      collapsible: false,
-      items: [{type: 'doc', id: 'workstreams', label: 'Workstreams'}],
     },
     {
       type: 'category',
