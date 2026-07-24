@@ -57,8 +57,8 @@ const config: Config = {
         // and sitemap — not merely hidden from the navbar. Doc authoring
         // continues upstream in rossoctl/rossoctl:docs/.
         // TO RESTORE: delete `docs: false` and uncomment the block below.
-        docs: false,
-        /* docs: {
+        // docs: false,
+        docs: {
           // Read docs from a local docs/ folder that mirrors the source of
           // truth 1:1. This folder is NOT committed — scripts/sync-docs.sh syncs
           // it from rossoctl/rossoctl:docs/ at build time. routeBasePath keeps
@@ -73,12 +73,15 @@ const config: Config = {
           // versions exist yet. When the first is cut
           // (`npm run docusaurus docs:version 0.7`), it becomes the default
           // "latest" and "dev" stays as the work-in-progress version.
+          exclude: [
+            
+          ],
           versions: {
             current: {
               label: 'dev',
             },
           },
-        }, */
+        },
         // Blog is an EXTERNAL Medium link (see navbar) — no local blog.
         blog: false,
         theme: {
@@ -146,14 +149,12 @@ const config: Config = {
         // clicking the logo/title goes to '/', the landing page
       },
       items: [
-        // === TEMPORARY: "Documentation" nav item hidden until docs go public. ===
-        // TO RESTORE: uncomment this item (requires re-enabling `docs` in the preset above).
-        /* {
+        {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
           label: 'Documentation',
-        }, */
+        },
         {
           // Single "Contributing" page rendered from the contributing docs
           // instance (docs layout + breadcrumbs). Content mirrors rossoctl's
