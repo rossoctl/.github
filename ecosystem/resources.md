@@ -5,7 +5,7 @@
 | Website | [rossoctl.dev](https://rossoctl.dev) |
 | GitHub | [github.com/rossoctl](https://github.com/rossoctl/) |
 | Project Board | [rossoctl Issue Prioritization](https://github.com/orgs/rossoctl/projects/8) |
-| Blog | [Medium](https://medium.com/kagenti-the-agentic-platform) |
+| Blog | [Medium](https://medium.com/rossoctl-the-agentic-platform) |
 | Video | [YouTube (@Rossoctl)](https://www.youtube.com/@Rossoctl) |
 | Slack | [Join the community](https://ibm.biz/kagenti-slack) |
 | Google Group | [kagenti-contributors](https://groups.google.com/g/kagenti-contributors) |

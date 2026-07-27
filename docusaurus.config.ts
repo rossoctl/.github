@@ -166,7 +166,7 @@ const config: Config = {
         },
         {
           // EXTERNAL blog — opens in a new tab.
-          href: 'https://medium.com/kagenti-the-agentic-platform',
+          href: 'https://medium.com/rossoctl-the-agentic-platform',
           label: 'Blog',
           position: 'left',
           target: '_blank',
