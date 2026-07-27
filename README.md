@@ -51,8 +51,7 @@ SRC_REPO=/path/to/rossoctl npm run sync-docs
 npm start            # http://localhost:3000/.github/  (Ctrl+C to stop)
 ```
 
-To verify a production build the way CI does — this is the check that matters
-before pushing, since `npm start` is more lenient than a real build:
+We do not use `npm start` to run the dev server with hot reload, because we make heavy use of the `draft` feature, which is not suppressed by `start`.
 
 ```sh
 npm run build        # production build into build/  (fails on broken links, type errors)
