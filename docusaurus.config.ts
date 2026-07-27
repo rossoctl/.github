@@ -172,6 +172,14 @@ const config: Config = {
           target: '_blank',
           rel: 'noopener noreferrer',
         },
+        {
+          // EXTERNAL YouTube channel (demos + talks) — opens in a new tab.
+          href: 'https://www.youtube.com/@Rossoctl',
+          label: 'Videos',
+          position: 'left',
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        },
         // === TEMPORARY: "dev" version dropdown hidden until docs go public. ===
         // It only links into /docs/*, so it's removed while docs are unpublished.
         // TO RESTORE: uncomment this item (requires re-enabling `docs` in the preset above).
