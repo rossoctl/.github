@@ -45,7 +45,20 @@ if [[ -d "$UP" ]]; then
   mkdir -p "$DEST"
   rsync -a --delete --exclude '.DS_Store' "$UP"/ "$DEST"/
 
+  # The /docs/ root is a GENERATED INDEX (see sidebars.ts), not a markdown file.
+  # By default Docusaurus maps docs/README.md to the /docs/ route, which would
+  # collide with that generated index. Give README a slug so it ships as an
+  # ordinary page (/docs/readme) and frees the root route. Prepend frontmatter
+  # (upstream README has none). Skip if it somehow already has frontmatter.
+  README="$DEST/README.md"
+  if [[ -f "$README" ]] && ! head -1 "$README" | grep -q '^---$'; then
+    printf -- '---\nslug: /readme\nsidebar_label: Overview\n---\n\n%s' "$(cat "$README")" > "$README.tmp"
+    mv "$README.tmp" "$README"
+  fi
+
   # Rewrite links to README.md -> index.md (Docusaurus folder-index convention).
+  # (README is no longer the folder index, but existing ./README.md links across
+  # the docs still resolve to the same page; keep this so cross-links don't break.)
   find "$DEST" -name '*.md' -type f -print0 | while IFS= read -r -d '' f; do
     sed -i.bak -E 's#\]\(([^)]*)README\.md#](\1index.md#g' "$f" && rm -f "$f.bak"
   done

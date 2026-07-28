@@ -16,9 +16,9 @@ export type AccordionItem = {
 
 // Map a status label to its pill style.
 const STATUS_CLASS: Record<string, string> = {
-  Ready: styles.pillReady,
-  'In progress': styles.pillProgress,
-  Next: styles.pillNext,
+  'Ready': styles.pillReady,
+  'beta in 0.7': styles.pillProgress,
+  'alpha in 0.7': styles.pillNext,
 };
 
 function Chevron({open}: {open: boolean}): ReactNode {
