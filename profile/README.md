@@ -13,7 +13,7 @@ Built on open standards:
 - **[operator](https://github.com/rossoctl/operator)** - Kubernetes operator for deploying and lifecycle management of agents and tools (Go)
 - **[cortex](https://github.com/rossoctl/cortex)** - Kubernetes security extensions for zero-trust agent authentication (Go)
 - **[examples](https://github.com/rossoctl/examples)** - Sample agents and tools (Python)
-- **[.github](https://github.com/rossoctl/.github)** - Project website and documentation (Hugo/HTML)
+- **[.github](https://github.com/rossoctl/.github)** - Project website and documentation (Docusaurus/HTML)
 
 #### Experimental
 
