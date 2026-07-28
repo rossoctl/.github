@@ -83,3 +83,4 @@ set `baseUrl: '/'` in `docusaurus.config.ts` and add `static/CNAME`.
 Commits require **DCO sign-off** (`git commit -s`). See [`CLAUDE.md`](./CLAUDE.md)
 for the sign-off and attribution policy, and enable the hook with
 `git config core.hooksPath scripts/hooks`.
+
