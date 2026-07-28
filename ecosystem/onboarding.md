@@ -6,7 +6,7 @@ Guide for new contributors joining the rossoctl ecosystem.
 
 - **GitHub** — Browse the [rossoctl org](https://github.com/rossoctl/) and fork any repo to start contributing
 - **Slack** — [Join the community](https://ibm.biz/rossoctl-slack) for real-time discussion
-- **Google Group** — Join [kagenti-contributors](https://groups.google.com/g/kagenti-contributors) for shared docs and announcements
+- **Google Group** — Join [rossoctl-contributors](https://groups.google.com/g/rossoctl-contributors) for shared docs and announcements
 
 ## 2. Join the Community Calendar
 
