@@ -26,4 +26,4 @@ Built on open standards:
 - 📖 Start with the [CONTRIBUTING](https://github.com/rossoctl/rossoctl/blob/main/CONTRIBUTING.md) guide
 - 👥 Meet the [maintainers](https://github.com/rossoctl/rossoctl/blob/main/MAINTAINERS.md)
 - 🌐 Learn more at [rossoctl.dev](https://rossoctl.dev/)
-- 💬 Or just come say hi in the [Rossoctl Slack](https://ibm.biz/kagenti-slack)
+- 💬 Or just come say hi in the [Rossoctl Slack](https://ibm.biz/rossoctl-slack)

@@ -211,7 +211,7 @@ const config: Config = {
         },
         {
           // Slack icon + small "Join Slack" label (see .header-slack-link in custom.css).
-          href: 'https://ibm.biz/kagenti-slack',
+          href: 'https://ibm.biz/rossoctl-slack',
           position: 'right',
           className: 'header-slack-link',
           label: 'Join Slack',
