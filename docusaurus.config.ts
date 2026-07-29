@@ -236,7 +236,7 @@ const config: Config = {
             // === TEMPORARY: docs footer links hidden until docs go public. ===
             // TO RESTORE: uncomment these four links.
             // {label: 'Documentation', to: '/docs/category/getting-started'},
-            // {label: 'Quickstart', to: '/docs/getting-started/quickstart'},
+            // {label: 'Quickstart', to: '/docs/overview/quickstart'},
             // {label: 'Architecture', to: '/docs/concepts/architecture'},
             // {label: 'Guides', to: '/docs/category/guides'},
             {label: 'Contributing', to: '/contributing'},
