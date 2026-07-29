@@ -74,7 +74,8 @@ const config: Config = {
           // (`npm run docusaurus docs:version 0.7`), it becomes the default
           // "latest" and "dev" stays as the work-in-progress version.
           exclude: [
-            
+            // Internal working notes — not part of the published site.
+            'superpowers/**',
           ],
           versions: {
             current: {
