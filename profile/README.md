@@ -15,7 +15,7 @@ Built on open standards:
 - **[examples](https://github.com/rossoctl/examples)** - Sample agents and tools (Python)
 - **[.github](https://github.com/rossoctl/.github)** - Project website and documentation (Docusaurus/HTML)
 - **[automation](https://github.com/rossoctl/automation)** - Automated org maintenance tooling using a scanner/fixer pattern (Shell)
-- **[agent-skills](https://github.com/rossoctl/agent-skills)** - Reusable agent skills for org automation, such as link-health and dependency scanning (Shell)
+- **[agent-skills](https://github.com/rossoctl/agent-skills)** - Reusable agent skills for org automation, such as link-health, automated pull request reviewing, and dependency scanning (Shell)
 
 #### Experimental
 
