@@ -85,8 +85,22 @@ const config: Config = {
           path: 'docs',
           routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
-          // "Edit this page" points at the source of truth upstream.
-          editUrl: 'https://github.com/rossoctl/rossoctl/tree/main/docs/',
+          // "Edit this page" has to resolve per version, because the two
+          // versions live in DIFFERENT repositories (#2584):
+          //   dev  -> rossoctl/rossoctl:docs/ — the source of truth, mirrored
+          //           into docs/ here at build time by scripts/sync-docs.sh.
+          //   vX.Y -> this repo: `docusaurus docs:version` writes the snapshot
+          //           to versioned_docs/version-X.Y/, and it is committed here.
+          // A plain string cannot express that. Pointing every version at
+          // rossoctl/rossoctl sent every released page to a path that does not
+          // exist there, so "Edit this page" 404'd on the whole latest version.
+          // `versionDocsDirPath` is the version's content root relative to this
+          // site directory ('docs' for dev, 'versioned_docs/version-X.Y' for a
+          // release), which is exactly the in-repo prefix the snapshot needs.
+          editUrl: ({version, versionDocsDirPath, docPath}) =>
+            version === 'current'
+              ? `https://github.com/rossoctl/rossoctl/tree/main/docs/${docPath}`
+              : `https://github.com/rossoctl/.github/tree/main/${versionDocsDirPath}/${docPath}`,
           // Versioning: the current (un-versioned) docs are the in-progress
           // "dev" docs, shown in the header version dropdown. No released
           // versions exist yet. When the first is cut
