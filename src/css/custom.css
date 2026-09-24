@@ -701,3 +701,42 @@ h6 {
 .plugin-id-default .table-of-contents__link--active {
   font-weight: 500;
 }
+
+/* ===== RELEASE ANNOUNCEMENT BAR =====
+   Brand-red bar above the navbar announcing a release. `--ifm-color-primary`
+   is the same red in light and dark (see the [data-theme='dark'] block), so a
+   single rule covers both themes.
+   theme-classic's own .announcementBar class sets a white background and a
+   bottom border with the same specificity as this one, so these declarations
+   are marked !important rather than relying on stylesheet order. */
+.theme-announcement-bar {
+  background-color: var(--ifm-color-primary) !important;
+  color: #ffffff !important;
+  border-bottom: none !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* The default link colour is the same brand red as the bar, which would be
+   invisible. */
+.theme-announcement-bar a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.theme-announcement-bar a:hover {
+  color: #ffffff;
+  text-decoration-thickness: 2px;
+}
+
+/* The close button draws with currentColor. */
+.theme-announcement-bar button {
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+.theme-announcement-bar button:hover {
+  opacity: 1;
+}

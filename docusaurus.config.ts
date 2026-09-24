@@ -213,6 +213,21 @@ const config: Config = {
     colorMode: {
       respectPrefersColorScheme: true,
     },
+    // Release banner, above the navbar on every page. "documentation" links to
+    // /docs/, which serves the newest release (lastVersion), so the link keeps
+    // pointing at the current docs without an edit when the next one is cut.
+    // The `id` is the key Docusaurus stores when a reader dismisses the bar:
+    // change it for the next release so the new bar shows to everyone, and
+    // leave it alone otherwise or the bar reappears for people who closed it.
+    // Colours are deliberately NOT set here — `backgroundColor`/`textColor`
+    // render as inline styles, which would override the theme-aware rules in
+    // src/css/custom.css.
+    announcementBar: {
+      id: 'rossoctl-0-8-release',
+      content:
+        '\u{1F389} rossoctl 0.8 is here! Explore the updated <a href="/docs/">documentation \u2192</a>',
+      isCloseable: true,
+    },
     navbar: {
       title: 'rossoctl',
       logo: {
