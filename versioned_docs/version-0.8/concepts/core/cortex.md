@@ -53,7 +53,7 @@ goes with it.
 You can run RossoCortex on macOS or Linux and watch your agent's traffic in about 5 minutes. You do
 not need a Kubernetes cluster. See [Quickstart on a laptop](../../get-started/laptop.md) for the
 step-by-step instructions, or the
-[repository README](https://github.com/rossoctl/cortex/blob/main/index.md) for the short version.
+[repository README](https://github.com/rossoctl/cortex/blob/main/README.md) for the short version.
 
 ## Give feedback
 
