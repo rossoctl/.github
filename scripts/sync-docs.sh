@@ -7,7 +7,7 @@
 #
 # All destinations are git-ignored here and regenerated on every build (CI runs
 # this before `npm run build`; see .github/workflows/deploy.yaml). The canonical
-# content lives in rossoctl/rossoctl — edit it there, not here.
+# content lives in those upstream repos — edit it there, not here.
 #
 # Usage:
 #   ./scripts/sync-docs.sh [git-ref]                       # clone from GitHub (default: main)
@@ -113,10 +113,10 @@ if [[ -n "${CORTEX_SRC_REPO:-}" ]]; then
   CORTEX_SRC="$CORTEX_SRC_REPO"
 else
   CORTEX_SRC="$(mktemp -d)"
-  trap 'rm -rf "${TMP:-}" "$CORTEX_SRC"' EXIT
+  trap 'rm -rf ${TMP:+"$TMP"} "$CORTEX_SRC"' EXIT
   git clone --depth 1 --filter=blob:none --sparse "$CORTEX_REPO_URL" "$CORTEX_SRC"
   git -C "$CORTEX_SRC" sparse-checkout set scripts
 fi
 mkdir -p "$SITE_DIR/cortex"
 rsync -a "$CORTEX_SRC/scripts/install.sh" "$SITE_DIR/cortex/install.sh"
-echo "==> cortex/install.sh copied from $CORTEX_SRC/scripts/install.sh."
+echo "==> cortex/install.sh copied from ${CORTEX_SRC_REPO:-$CORTEX_REPO_URL}@$(git -C "$CORTEX_SRC" rev-parse --short HEAD)."
