@@ -2,19 +2,23 @@
 # sync-docs.sh — populate this site from the SOURCE OF TRUTH in rossoctl/rossoctl:
 #   1. docs/       -> the site's docs/ (rendered as the Docs section)
 #   2. CONTRIBUTING.md  -> the site's contributing/index.md (Contributing page)
+# and from rossoctl/cortex:
+#   3. scripts/install.sh -> the site's cortex/install.sh (served at /cortex/install.sh)
 #
-# Both destinations are git-ignored here and regenerated on every build (CI runs
+# All destinations are git-ignored here and regenerated on every build (CI runs
 # this before `npm run build`; see .github/workflows/deploy.yaml). The canonical
 # content lives in rossoctl/rossoctl — edit it there, not here.
 #
 # Usage:
 #   ./scripts/sync-docs.sh [git-ref]                       # clone from GitHub (default: main)
 #   SRC_REPO=/path/to/local/rossoctl ./scripts/sync-docs.sh # use an existing local clone
+#   CORTEX_SRC_REPO=/path/to/local/cortex ./scripts/sync-docs.sh # likewise for cortex
 
 set -euo pipefail
 
 REF="${1:-main}"
 REPO_URL="https://github.com/rossoctl/rossoctl.git" # source of truth
+CORTEX_REPO_URL="${CORTEX_REPO_URL:-https://github.com/rossoctl/cortex.git}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SITE_DIR="$(dirname "$SCRIPT_DIR")"
 SUBDIR="docs"
@@ -102,3 +106,17 @@ if [[ -f "$CONTRIB_SRC" ]]; then
 else
   echo "!! CONTRIBUTING.md not found at $CONTRIB_SRC (skipped Contributing page)." >&2
 fi
+
+# --- 3. Cortex installer: copy scripts/install.sh -> cortex/install.sh -------
+# Fatal if missing: a published URL without the file would serve HTML to `sh`.
+if [[ -n "${CORTEX_SRC_REPO:-}" ]]; then
+  CORTEX_SRC="$CORTEX_SRC_REPO"
+else
+  CORTEX_SRC="$(mktemp -d)"
+  trap 'rm -rf "${TMP:-}" "$CORTEX_SRC"' EXIT
+  git clone --depth 1 --filter=blob:none --sparse "$CORTEX_REPO_URL" "$CORTEX_SRC"
+  git -C "$CORTEX_SRC" sparse-checkout set scripts
+fi
+mkdir -p "$SITE_DIR/cortex"
+rsync -a "$CORTEX_SRC/scripts/install.sh" "$SITE_DIR/cortex/install.sh"
+echo "==> cortex/install.sh copied from $CORTEX_SRC/scripts/install.sh."

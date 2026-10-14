@@ -203,6 +203,16 @@ const config: Config = {
           'https://github.com/rossoctl/ecosystem-guide/tree/main/content/',
       },
     ],
+    // Copies cortex/ (synced by scripts/sync-docs.sh) to build/cortex/, so
+    // /cortex/install.sh is served as a real file. `static/` can't be used:
+    // it's committed, and this file must not be.
+    () => ({
+      name: 'cortex-installer',
+      postBuild: async ({outDir}) =>
+        fs.cpSync(path.join(__dirname, 'cortex'), path.join(outDir, 'cortex'), {
+          recursive: true,
+        }),
+    }),
   ],
 
   // Enables Mermaid diagram rendering (paired with markdown.mermaid: true).

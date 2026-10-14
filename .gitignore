@@ -8,8 +8,10 @@
 # committed here, regenerated on every build:
 #   docs/           <- rossoctl/rossoctl:docs/  (Docs section)
 #   contributing/index.md <- rossoctl/rossoctl:CONTRIBUTING.md (Contributing page)
+#   cortex/         <- rossoctl/cortex:scripts/install.sh (served at /cortex/install.sh)
 /docs
 /contributing/index.md
+/cortex
 
 # --- Misc / editor ---
 .DS_Store
