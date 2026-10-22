@@ -21,7 +21,7 @@ In practice, the Authorization Pattern within the Agentic Platform enables:
 - **[Authentication Guide](../users-guides/authentication.md)** - Client secret vs. SPIFFE auth modes for operator and agent/tool workloads
 - **[AuthBridge Component](https://github.com/rossoctl/cortex/tree/main/authbridge)** - Complete end-to-end installation and demo with SPIFFE, Client Registration, and AuthProxy
 - **[Token Exchange Deep Dive](https://github.com/rossoctl/rossoctl/blob/main/rossoctl/examples/identity/token_exchange.md)** - Detailed OAuth2 token exchange flows
-- **[Client Registration Examples](https://github.com/rossoctl/rossoctl/blob/main/rossoctl/examples/identity/keycloak_token_exchange/index.md)** - Practical integration examples
+- **[Client Registration Examples](https://github.com/rossoctl/rossoctl/blob/main/rossoctl/examples/identity/keycloak_token_exchange/README.md)** - Practical integration examples
 
 ---
 
