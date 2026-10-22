@@ -11,7 +11,7 @@ Built on open standards:
 
 - **[rossoctl](https://github.com/rossoctl/rossoctl)** - Main installer, UI, and documentation (Python)
 - **[operator](https://github.com/rossoctl/operator)** - Kubernetes operator for deploying and lifecycle management of agents and tools (Go)
-- **[cortex](https://github.com/rossoctl/cortex)** - Kubernetes security extensions for zero-trust agent authentication (Go)
+- **[cortex](https://github.com/rossoctl/cortex)** - Kubernetes security extensions for zero-trust agent authentication (Go) — [install stats](https://rossoctl.github.io/cortex/install-stats/) (estimated from GitHub download counts, not from user machines)
 - **[examples](https://github.com/rossoctl/examples)** - Sample agents and tools (Python)
 - **[.github](https://github.com/rossoctl/.github)** - Project website and documentation (Docusaurus/HTML)
 - **[automation](https://github.com/rossoctl/automation)** - Automated org maintenance tooling using a scanner/fixer pattern (Shell)
