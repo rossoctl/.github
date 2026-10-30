@@ -199,8 +199,13 @@ const config: Config = {
         path: 'ecosystem',
         routeBasePath: '/',
         sidebarPath: './sidebarsEcosystem.ts',
-        editUrl:
-          'https://github.com/rossoctl/ecosystem-guide/tree/main/content/',
+        // "Edit this page" must point at THIS repo: the ecosystem pages (the
+        // landing page among them) are authored here, not in the archived
+        // rossoctl/ecosystem-guide this instance was originally seeded from.
+        // Docusaurus appends the doc's site-relative path (e.g.
+        // 'ecosystem/welcome.mdx') to a string editUrl, so the base is the
+        // repo root — no 'ecosystem/' segment here, or it doubles.
+        editUrl: 'https://github.com/rossoctl/.github/tree/main/',
       },
     ],
     // Copies cortex/ (synced by scripts/sync-docs.sh) to build/cortex/, so
