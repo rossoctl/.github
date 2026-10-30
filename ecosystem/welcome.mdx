@@ -5,7 +5,6 @@ title: Welcome to rossoctl
 ---
 
 import Link from '@docusaurus/Link';
-import Accordion from '@site/src/components/Accordion';
 import ProjectCards from '@site/src/components/ProjectCards';
 
 export const coreProjects = [
@@ -85,106 +84,6 @@ export const automationProjects = [
   },
 ];
 
-{/* Historical cards: the data-plane functions and services from the earlier
-   platform direction (shipped through v0.8). Where the work continues, `now`
-   points at the repository it lives in today; `discontinued` marks the rest. */}
-export const pastDataPlane = [
-  {
-    number: '01',
-    title: 'Agent identity',
-    description:
-      'Every agent carries a verifiable identity, so the platform knows who is acting before it decides what they may do.',
-    now: 'rossoctl/cortex',
-  },
-  {
-    number: '02',
-    title: 'Authorization and access',
-    description:
-      'Agents run with least privilege and act by delegation, never with more authority than the user and the agent both hold.',
-    now: 'rossoctl/cortex',
-  },
-  {
-    number: '03',
-    title: 'Intent-based access',
-    description:
-      "Access is tied to what the user actually asked for, so an agent that drifts off task can't quietly reuse its access for something else.",
-    now: 'rossoctl/aiac',
-  },
-  {
-    number: '04',
-    title: 'Tool semantic validation',
-    description:
-      "Tool calls are checked for correctness and meaning before they run, catching calls that are malformed or don't match the task.",
-    discontinued: true,
-  },
-  {
-    number: '05',
-    title: 'Context compaction',
-    description:
-      "The platform assembles and trims what goes into the model's context, keeping it relevant and lowering token cost.",
-    now: 'rossoctl/context-guru',
-  },
-  {
-    number: '06',
-    title: 'Data-flow analysis',
-    description:
-      'The platform tracks where the data behind a decision came from, so its provenance can gate what the agent does next.',
-    now: 'rossoctl/lab-data-governance',
-  },
-  {
-    number: '07',
-    title: 'Failure recovery',
-    description:
-      'The platform detects when an agent stalls or fails and returns it to a known state instead of leaving work half-finished.',
-    now: 'rossoctl/moca',
-  },
-  {
-    number: '08',
-    title: 'User interaction',
-    description:
-      'For high-stakes steps, a person stays in the loop and approves before the agent acts.',
-    now: 'rossoctl/eventing-lab',
-  },
-];
-
-export const pastServices = [
-  {
-    number: '01',
-    title: 'Skills',
-    description:
-      'Reusable, governed capabilities an agent can draw on, versioned and controlled rather than pasted in.',
-    now: 'rossoctl/repoman',
-  },
-  {
-    number: '02',
-    title: 'Platform Tools',
-    description:
-      'Standalone tools the platform provides to strengthen agent and platform governance, security, resilience, reliability and efficiency, so each concern is handled once by the platform instead of rebuilt in every agent.',
-    discontinued: true,
-  },
-  {
-    number: '03',
-    title: 'Memory',
-    description:
-      "Durable memory that survives sessions and restarts, so an agent doesn't start from nothing each time.",
-    now: 'rossoctl/context-service',
-  },
-  {
-    number: '04',
-    title: 'Knowledge base',
-    description:
-      'Shared, queryable knowledge agents use to ground their work in your own data.',
-    now: 'rossoctl/context-service',
-  },
-  {
-    number: '05',
-    title: 'Sandboxes',
-    description:
-      'Isolated environments to run untrusted or self-modifying agents without risking the host or other tenants.',
-    now: 'rossoctl/moca',
-  },
-];
-
 <div className="rosso-landing">
 
 # Agent infrastructure, built in the open
@@ -221,42 +120,5 @@ Context, access control, and data governance for agent workloads.
 The automation that keeps the org and its repositories healthy.
 
 <ProjectCards items={automationProjects} />
-
-## Past activities
-
-Our earlier platform direction, shipped through v0.8: a data plane that mediated what agents do,
-and a set of services agents could call. The cards below are the historical record — where the work
-continues, each card points at the repository it lives in today; the rest we decided not to continue.
-
-### The data plane (Rosso Cortex)
-
-An intercept sitting transparently between an agent and everything external it touches: models,
-tools, users, and other agents. From that one vantage point it enforced the guarantees agents
-can't enforce for themselves.
-
-<Accordion items={pastDataPlane} />
-
-### Services
-
-The building blocks agents needed to do real work: skills, tools, memory, knowledge bases, and
-sandboxes.
-
-<Accordion items={pastServices} />
-
-### The old repositories
-
-The repositories that carried this direction are archived — read-only, but still available:
-
-| Repository | What it was |
-| --- | --- |
-| [operator](https://github.com/rossoctl/operator) | Kubernetes operator for deploying and lifecycle management of agents and tools |
-| [examples](https://github.com/rossoctl/examples) | Sample agents and tools for the rossoctl platform |
-| [OpenShell](https://github.com/rossoctl/OpenShell) | The safe, private runtime for autonomous agents — the sandbox layer |
-| [openshell-driver-openshift](https://github.com/rossoctl/openshell-driver-openshift) | OpenShell compute driver that provisioned agent sandboxes on OpenShift |
-| [openshell-credentials-keycloak](https://github.com/rossoctl/openshell-credentials-keycloak) | OpenShell credentials driver for Keycloak |
-| [workload-harness](https://github.com/rossoctl/workload-harness) | Tools for generating workloads against agents |
-| [lab-runtime-simulation](https://github.com/rossoctl/lab-runtime-simulation) | Virtual MCP server for validating tool calling before and during runtime |
-| [lab-clear](https://github.com/rossoctl/lab-clear) | Trajectory analysis and deep insights on agent failures |
-| [DEPRECATED-kagenti-bundle-service](https://github.com/rossoctl/DEPRECATED-kagenti-bundle-service) | Bridged Kubernetes-native policy definitions to the OPA bundle protocol |
 
 </div>
