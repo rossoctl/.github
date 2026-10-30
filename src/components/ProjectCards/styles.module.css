@@ -1,0 +1,61 @@
+/* Project card grid (landing page). Two cards per row inside the 672px
+   .rosso-landing column, collapsing to one on narrow screens. Aesthetic follows
+   the site tokens: 1px emphasis border, brand-red card title, muted footer
+   links, IBM Plex inherited from the doc theme. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.15rem 1.25rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  background: var(--ifm-background-color);
+}
+
+.name {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.name a {
+  color: var(--ifm-color-primary);
+}
+
+.name a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.desc {
+  flex-grow: 1;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ifm-font-color-base);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.1rem;
+  font-size: 0.8rem;
+}
+
+.links a {
+  color: var(--ifm-color-emphasis-800);
+  white-space: nowrap;
+}
+
+.links a:hover {
+  color: var(--ifm-color-primary);
+}

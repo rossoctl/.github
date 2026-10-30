@@ -5,138 +5,120 @@ title: Welcome to rossoctl
 ---
 
 import Link from '@docusaurus/Link';
-import Accordion from '@site/src/components/Accordion';
-import ArchitectureDiagram from '@site/src/components/ArchitectureDiagram';
+import ProjectCards from '@site/src/components/ProjectCards';
 
-export const cortexFunctions = [
+export const coreProjects = [
   {
-    number: '01',
-    status: 'Ready',
-    title: 'Agent identity',
+    name: 'Moca',
+    repo: 'rossoctl/moca',
     description:
-      'Every agent carries a verifiable identity, so the platform knows who is acting before it decides what they may do.',
+      'A dense, warm process-manager runtime for stateful AI coding agents — sessions resume exactly where they left off. Agent state is durable, tool execution runs in isolated sandboxes, and one supervisor serves many sessions per warm worker.',
   },
   {
-    number: '02',
-    status: 'Ready',
-    title: 'Authorization and access',
+    name: 'Cortex',
+    repo: 'rossoctl/cortex',
     description:
-      'Agents run with least privilege and act by delegation, never with more authority than the user and the agent both hold.',
+      "See what your coding agent actually sends — and pay less for it. A proxy in the agent's request path that shows every model call, tool call, and cost as it happens, and strips the tool definitions the agent never calls. Cortex Local runs on individual, end-user machines; Cortex Remote, deployed along the harness, is being explored.",
   },
   {
-    number: '03',
-    status: 'beta in 0.7',
-    title: 'Intent-based access',
+    name: 'Eventing',
+    repo: 'rossoctl/eventing-lab',
     description:
-      "Access is tied to what the user actually asked for, so an agent that drifts off task can't quietly reuse its access for something else.",
+      'The signed-event agent wake path: a Kafka message wakes a coding agent, and every step of its run streams back out as CloudEvents — with identity and signing on the event path.',
   },
   {
-    number: '04',
-    status: 'beta in 0.7',
-    title: 'Tool semantic validation',
+    name: 'AutoBench',
+    repo: 'rossoctl/autobench',
     description:
-      "Tool calls are checked for correctness and meaning before they run, catching calls that are malformed or don't match the task.",
+      "Automated benchmarking of agentic AI workloads: deploys a benchmark workload — a tool-calling agent paired with the benchmark's MCP server — runs it, collects per-task telemetry, and publishes the results as durable artifacts.",
+    links: [{label: 'autobench-claudecode', href: 'https://github.com/rossoctl/autobench-claudecode'}],
   },
   {
-    number: '05',
-    status: 'alpha in 0.7',
-    title: 'Context compaction',
+    name: 'State management',
+    repo: 'rossoctl/state-lab',
     description:
-      "The platform assembles and trims what goes into the model's context, keeping it relevant and lowering token cost.",
-  },
-  {
-    number: '06',
-    status: 'alpha in 0.7',
-    title: 'Data-flow analysis',
-    description:
-      'The platform tracks where the data behind a decision came from, so its provenance can gate what the agent does next.',
-  },
-  {
-    number: '07',
-    status: 'beta in 0.7',
-    title: 'Failure recovery',
-    description:
-      'The platform detects when an agent stalls or fails and returns it to a known state instead of leaving work half-finished.',
-  },
-  {
-    number: '08',
-    status: 'beta in 0.7',
-    title: 'User interaction',
-    description:
-      'For high-stakes steps, a person stays in the loop and approves before the agent acts.',
+      'Where agent state lives, who owns it, and what happens when a process dies mid-task — demo flows exploring durability and passability for distributed agents.',
   },
 ];
 
-export const rossoctlServices = [
+export const contextGovernanceProjects = [
   {
-    number: '01',
-    title: 'Skills',
+    name: 'Context Guru',
+    repo: 'rossoctl/context-guru',
     description:
-      'Reusable, governed capabilities an agent can draw on, versioned and controlled rather than pasted in.',
+      'Provider-agnostic context engineering for LLM agents — lower token cost and latency without sacrificing accuracy. Ships as plugins for Claude Code and Codex.',
+    links: [{label: 'project site', href: 'https://rossoctl.github.io/context-guru/'}],
   },
   {
-    number: '02',
-    title: 'Platform Tools',
+    name: 'AIAC',
+    repo: 'rossoctl/aiac',
     description:
-      'Standalone tools the platform provides to strengthen agent and platform governance, security, resilience, reliability and efficiency, so each concern is handled once by the platform instead of rebuilt in every agent.',
+      'AI-based access control: translates natural-language policy into enforced permissions on OPA, driven by Keycloak identities.',
   },
   {
-    number: '03',
-    title: 'Memory',
+    name: 'Data governance',
+    repo: 'rossoctl/lab-data-governance',
     description:
-      "Durable memory that survives sessions and restarts, so an agent doesn't start from nothing each time.",
+      'Data-aware governance and security: observes how data flows across agents, tools, and sessions, and derives interactions, payload classifications, and data lineage from the raw stream.',
   },
   {
-    number: '04',
-    title: 'Knowledge base',
+    name: 'Context Service',
+    repo: 'rossoctl/context-service',
     description:
-      'Shared, queryable knowledge agents use to ground their work in your own data.',
+      'Agent context infrastructure: durable storage and lifecycle management for agent state, memory, knowledge, workspaces, and artifacts — for local harnesses and container-native platforms alike.',
+  },
+];
+
+export const automationProjects = [
+  {
+    name: 'Automation',
+    repo: 'rossoctl/automation',
+    description:
+      'Automated maintenance programs for the rossoctl org, built on a scanner/fixer pattern.',
   },
   {
-    number: '05',
-    title: 'Sandboxes',
+    name: 'RepoMan',
+    repo: 'rossoctl/repoman',
     description:
-      'Isolated environments to run untrusted or self-modifying agents without risking the host or other tenants.',
+      'Automated maintenance programs — PR review, link health, dependency bumps, weekly reports — across GitHub repos you enroll once. Install once, enable programs on the fly.',
   },
 ];
 
 <div className="rosso-landing">
 
-# Platform primitives for trustworthy AI agents
+# Agent infrastructure, built in the open
 
 <div className="rosso-intro">
 
-rossoctl is a set of platform primitives for agent security, resilience, reliability and efficiency that
-platform owners can build on. It comes in three parts: RossoCortex, a data plane that mediates
-what agents do, a set of services agents can call and a set of tools and frameworks for observability,
-security, governance and administration. It's open source, framework-neutral,
-and built on open standards, supporting A2A and MCP.
+rossoctl is an open source research project building the infrastructure AI coding agents need to run
+for real: a dense runtime where sessions resume exactly where they left off, a proxy that shows what
+your coding agent sends and what it costs, an event-driven wake path, automated benchmarking, and
+state management for distributed agents. Around that core we work on context, access control, and
+data governance, and we run the org itself on the automation we build.
 
 </div>
 
 <div className="margin-top--md margin-bottom--lg">
-  {/* Primary CTAs point at the project repos (docs hidden pre-launch). */}
   <Link className="button button--lg cta-primary margin-right--sm" href="/docs/">Get started</Link>
+  <Link className="button button--lg cta-secondary" href="https://github.com/rossoctl" target="_blank" rel="noopener noreferrer">GitHub</Link>
 </div>
 
-<ArchitectureDiagram />
+## Core projects
 
-## The problem
+The projects we are actively building and shipping.
 
-AI agents don't behave like the cloud applications we know how to run. They decide which tools to call while they run, they don't cleanly separate data from instructions, their goals drift as context changes, and they can't reliably report what they did. Those traits make the ordinary demands of production hard to meet: failure recovery, admission control, security, and resource management.
+<ProjectCards items={coreProjects} />
 
-Agent systems fail in ways enterprise architecture wasn't built for, so they need a platform to supply the guarantees they can't supply themselves. Kubernetes solved the same kind of problem for cloud software by separating application logic from placement, scaling, and recovery. An agent platform needs an analogous split: decouple agent logic from the guarantees around admission, isolation, and failure recovery that production demands.
+## Context &amp; governance
 
-## RossoCortex, the data plane
+Context, access control, and data governance for agent workloads.
 
-RossoCortex is an intercept. It sits transparently between an agent and everything external it touches: models, tools, users, and other agents. From that one vantage point it enforces the guarantees agents can't enforce for themselves. It is flexible by design: it works with different agent types, including black-box harnesses, integrates with different sandboxes, and works across container network choices.
+<ProjectCards items={contextGovernanceProjects} />
 
-<Accordion items={cortexFunctions} />
+## Automation &amp; repo maintenance
 
-## Rossoctl services
+The automation that keeps the org and its repositories healthy.
 
-The services are the building blocks agents need to do real work: skills, tools, memory, knowledge bases, and sandboxes. The focus is on capabilities that lower the risk of agentic workloads and use resources more efficiently.
-
-<Accordion items={rossoctlServices} />
+<ProjectCards items={automationProjects} />
 
 </div>
