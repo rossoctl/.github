@@ -88,6 +88,34 @@
   transform: rotate(-90deg);
 }
 
+/* "→ repo" pointer on the right of a row (Past activities cards): small,
+   muted, external link to where the work lives today. */
+.nowLink {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--ifm-color-emphasis-800);
+}
+.nowLink:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+/* "discontinued" tag for historical cards whose work did not continue. */
+.discontinued {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--ifm-color-emphasis-600);
+  font-style: italic;
+}
+
 /* Status pill on the right of a row: Ready / In progress / Next. Colors are
    semantic (not brand) and have light + dark variants for legibility. */
 .pill {

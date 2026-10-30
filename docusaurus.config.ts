@@ -26,7 +26,7 @@ const LATEST_VERSION = releasedVersions[0];
 const config: Config = {
   title: 'rossoctl',
   tagline:
-    'A framework-neutral, scalable, secure platform for deploying, securing, and governing AI agents.',
+    'Open source infrastructure for running, connecting, and benchmarking AI agents.',
   favicon: 'img/favicon.svg',
 
   // Note: the `future.v4`/`experimental_faster` (Rspack) bundler is intentionally

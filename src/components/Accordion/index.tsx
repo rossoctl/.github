@@ -6,12 +6,19 @@ import styles from './styles.module.css';
 // rotating chevron, row dividers, and the first item open by default. `redTitles`
 // renders the item titles in the question-title red (#ef3030). An optional
 // `status` renders a Ready / In progress / Next pill on the right of the row.
+// An optional `now` (a repo path such as 'rossoctl/cortex') renders a muted
+// "→ repo" link on the right of the row instead — used by the historical
+// "Past activities" cards to point at where the work lives today.
 
 export type AccordionItem = {
   number: string;
   title: string;
   description?: string;
   status?: 'Ready' | 'In progress' | 'Next';
+  now?: string;
+  // Marks a historical card whose work we decided not to continue; renders a
+  // muted "discontinued" tag where continuing cards carry their "→ repo" link.
+  discontinued?: boolean;
 };
 
 // Map a status label to its pill style.
@@ -83,6 +90,18 @@ export default function Accordion({
                 <span className={`${styles.pill} ${STATUS_CLASS[item.status] ?? ''}`}>
                   {item.status}
                 </span>
+              )}
+              {item.now && (
+                <a
+                  className={styles.nowLink}
+                  href={`https://github.com/${item.now}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  → {item.now.split('/')[1]}
+                </a>
+              )}
+              {item.discontinued && (
+                <span className={styles.discontinued}>discontinued</span>
               )}
               <Chevron open={open} />
             </button>
