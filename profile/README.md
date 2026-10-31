@@ -1,34 +1,37 @@
-## Rossoctl - The Agentic Platform
-An open source platform for building, deploying, securing, and governing AI agents on Kubernetes.
+## Rossoctl
 
-Built on open standards:
-- [A2A](https://github.com/google/A2A) — agent-to-agent communication
-- [MCP](https://modelcontextprotocol.io/) — agent-to-tool integration
+Open source infrastructure for running, connecting, and benchmarking AI coding agents — built in the open at [rossoctl.dev](https://www.rossoctl.dev/).
 
 ### Repositories
 
-#### Core
+#### Core projects
 
-- **[rossoctl](https://github.com/rossoctl/rossoctl)** - Main installer, UI, and documentation (Python)
-- **[operator](https://github.com/rossoctl/operator)** - Kubernetes operator for deploying and lifecycle management of agents and tools (Go)
-- **[cortex](https://github.com/rossoctl/cortex)** - Kubernetes security extensions for zero-trust agent authentication (Go)
-- **[examples](https://github.com/rossoctl/examples)** - Sample agents and tools (Python)
-- **[.github](https://github.com/rossoctl/.github)** - Project website and documentation (Docusaurus/HTML)
-- **[automation](https://github.com/rossoctl/automation)** - Automated org maintenance tooling using a scanner/fixer pattern (Shell)
-- **[agent-skills](https://github.com/rossoctl/agent-skills)** - Reusable agent skills for org automation, such as link-health, automated pull request reviewing, and dependency scanning (Shell)
-- **[rossoctl-cli](https://github.com/rossoctl/rossoctl-cli)** - Command-line interface for Rossoctl (Go)
+- **[moca](https://github.com/rossoctl/moca)** - Dense, warm process-manager runtime for stateful AI coding agents — sessions resume exactly where they left off (Go)
+- **[cortex](https://github.com/rossoctl/cortex)** - The proxy layer between coding agents and everything they touch — see what your agent sends and pay less for it (Go)
+- **[eventing-lab](https://github.com/rossoctl/eventing-lab)** - Signed-event agent wake path: a Kafka message wakes a coding agent and every step streams back as CloudEvents (Python)
+- **[autobench](https://github.com/rossoctl/autobench)** - Automated benchmarking of agentic AI workloads — deploys the workload, collects per-task telemetry, publishes durable artifacts (Python)
+- **[state-lab](https://github.com/rossoctl/state-lab)** - Demo flows exploring state requirements for distributed agents, from durability to passability
 
-#### Experimental
+#### Context & governance
 
-- **[mcp-gateway](https://github.com/Kuadrant/mcp-gateway)** - Envoy-based MCP Gateway (Go) — *hosted under [Kuadrant](https://github.com/Kuadrant) org*
-- **[capture-the-flag](https://github.com/rossoctl/capture-the-flag)** - Capture the flag scenarios to demonstrate and test Rossoctl's security posture
-- **[workload-harness](https://github.com/rossoctl/workload-harness)** - Benchmarking and load-generation harness for evaluating agents on the Rossoctl platform (Shell)
-- **[context-guru](https://github.com/rossoctl/context-guru)** - Context engineering for agentic systems — compacts and summarizes LLM context to cut cost and latency while preserving accuracy (Go)
-- **[aiac](https://github.com/rossoctl/aiac)** - AI-based Access Control — translates natural-language policy into enforced PDP rules for AI agents on Kubernetes (Python)
+- **[context-guru](https://github.com/rossoctl/context-guru)** - Provider-agnostic context engineering for LLM agents — lower token cost and latency without sacrificing accuracy (Go)
+- **[aiac](https://github.com/rossoctl/aiac)** - AI-based access control — translates natural-language policy into enforced permissions on OPA (Python)
+- **[lab-data-governance](https://github.com/rossoctl/lab-data-governance)** - Data-aware governance: observes how data flows across agents, tools, and sessions, and derives interactions, classifications, and lineage (Python)
+- **[context-service](https://github.com/rossoctl/context-service)** - Agent context infrastructure: durable storage and lifecycle management for agent state, memory, knowledge, workspaces, and artifacts (Go)
+
+#### Automation & repo maintenance
+
+- **[automation](https://github.com/rossoctl/automation)** - Automated org maintenance programs using a scanner/fixer pattern (Shell)
+- **[repoman](https://github.com/rossoctl/repoman)** - RepoMan: automated repo-maintenance programs across enrolled GitHub repos (Shell)
+
+#### Platform & docs
+
+- **[rossoctl](https://github.com/rossoctl/rossoctl)** - Installer, web console, and documentation (Python)
+- **[.github](https://github.com/rossoctl/.github)** - Project website and documentation (Docusaurus)
 
 ### Get involved
 
 - 📖 Start with the [CONTRIBUTING](https://github.com/rossoctl/rossoctl/blob/main/CONTRIBUTING.md) guide
 - 👥 Meet the [maintainers](https://github.com/rossoctl/rossoctl/blob/main/MAINTAINERS.md)
-- 🌐 Learn more at [rossoctl.dev](https://rossoctl.dev/)
+- 🌐 Learn more at [rossoctl.dev](https://www.rossoctl.dev/)
 - 💬 Or just come say hi in the [Rossoctl Slack](https://ibm.biz/rossoctl-slack)
