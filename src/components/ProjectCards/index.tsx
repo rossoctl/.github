@@ -1,4 +1,5 @@
 import React, {type ReactNode} from 'react';
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 // Project card grid for the landing page's project directory. Each card names
@@ -24,33 +25,29 @@ export type ProjectCard = {
 export default function ProjectCards({items}: {items: ProjectCard[]}): ReactNode {
   return (
     <div className={styles.grid}>
-      {items.map((item) => (
-        <div className={styles.card} key={item.repo}>
-          <h3 className={styles.name}>
-            <a
-              href={`https://github.com/${item.repo}`}
-              target="_blank"
-              rel="noopener noreferrer">
-              {item.name}
-            </a>
-          </h3>
-          <p className={styles.desc}>{item.description}</p>
-          <div className={styles.links}>
-            <a href={`https://github.com/${item.repo}`} target="_blank" rel="noopener noreferrer">
-              Get started ↗
-            </a>
-            {item.links?.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer">
-                {link.label} ↗
-              </a>
-            ))}
+      {items.map((item) => {
+        const repoUrl = `https://github.com/${item.repo}`;
+        return (
+          <div className={styles.card} key={item.repo}>
+            <h3 className={styles.name}>
+              <Link href={repoUrl} target="_blank" rel="noopener noreferrer">
+                {item.name}
+              </Link>
+            </h3>
+            <p className={styles.desc}>{item.description}</p>
+            <div className={styles.links}>
+              <Link href={repoUrl} target="_blank" rel="noopener noreferrer">
+                Get started ↗
+              </Link>
+              {item.links?.map((link) => (
+                <Link key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
+                  {link.label} ↗
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
