@@ -2,6 +2,11 @@ name: Reusable - Add to Rossoctl Project
 
 on:
   workflow_call:
+    # Declared so a caller can pass this one secret by name, in place of
+    # `secrets: inherit`, which passes every secret of the calling repo.
+    secrets:
+      ADD_TO_PROJECT_PAT:
+        required: false
 
 jobs:
   add-to-project:
