@@ -22,7 +22,7 @@ One binary, no Kubernetes. macOS or Linux, amd64 or arm64.
 ## Quick start
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/rossoctl/cortex/main/authbridge/install.sh \
+curl -fsSL https://www.rossoctl.dev/cortex/install.sh \
   | sh -s -- --claude-code
 ```
 
