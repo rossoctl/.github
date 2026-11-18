@@ -4,6 +4,9 @@
 #   2. CONTRIBUTING.md  -> the site's contributing/index.md (Contributing page)
 # and from rossoctl/cortex:
 #   3. scripts/install.sh -> the site's cortex/install.sh (served at /cortex/install.sh)
+# and from rossoctl/moca:
+#   4. docs/       -> the site's moca/ (the Moca section, served at /moca/*), behind a
+#                     publish guard (see step 4)
 #
 # All destinations are git-ignored here and regenerated on every build (CI runs
 # this before `npm run build`; see .github/workflows/deploy.yaml). The canonical
@@ -13,6 +16,8 @@
 #   ./scripts/sync-docs.sh [git-ref]                       # clone from GitHub (default: main)
 #   SRC_REPO=/path/to/local/rossoctl ./scripts/sync-docs.sh # use an existing local clone
 #   CORTEX_SRC_REPO=/path/to/local/cortex ./scripts/sync-docs.sh # likewise for cortex
+#   MOCA_SRC_REPO=/path/to/local/moca ./scripts/sync-docs.sh     # likewise for moca
+#   MOCA_REF=<branch|tag> ./scripts/sync-docs.sh                   # moca ref (default: main)
 
 set -euo pipefail
 
@@ -120,3 +125,68 @@ fi
 mkdir -p "$SITE_DIR/cortex"
 rsync -a "$CORTEX_SRC/scripts/install.sh" "$SITE_DIR/cortex/install.sh"
 echo "==> cortex/install.sh copied from ${CORTEX_SRC_REPO:-$CORTEX_REPO_URL}@$(git -C "$CORTEX_SRC" rev-parse --short HEAD)."
+
+# --- 4. Moca docs: rossoctl/moca:docs/ -> moca/ (served at /moca/*) -----------
+# moca/ is git-ignored and rebuilt on every sync. docusaurus.config.ts adds the
+# moca docs instance and its navbar item only when moca/index.md exists, so a
+# skipped sync leaves the site exactly as it was without Moca.
+#
+# Published from moca's docs/ is the user documentation only. Its design
+# records (specs/, notes/, plans/, archive/, demos/, adrs/, REORG-PLAN.md) stay
+# in that repository; excluding them here keeps them out of the pages AND the
+# search index, not just the sidebar.
+#
+# PUBLISH GUARD: moca's docs/.publish-denylist lists extended regular expressions
+# (one per line, '#' comments) that must never appear on the public site, e.g.
+# the names of internal deployments. Any match in the files to be published
+# skips the whole moca section, with the matching files listed: nothing is
+# published partly. The guard has no bypass; fix the content in rossoctl/moca.
+MOCA_REPO_URL="${MOCA_REPO_URL:-https://github.com/rossoctl/moca.git}"
+MOCA_REF="${MOCA_REF:-main}"
+MOCA_GH_BASE="https://github.com/rossoctl/moca/blob/$MOCA_REF"
+MOCA_DEST="$SITE_DIR/moca"
+MOCA_EXCLUDED=(specs notes plans archive demos adrs REORG-PLAN.md)
+if [[ -n "${MOCA_SRC_REPO:-}" ]]; then
+  MOCA_SRC="$MOCA_SRC_REPO"
+  MOCA_DESC="$MOCA_SRC_REPO (local)"
+else
+  MOCA_SRC="$(mktemp -d)"
+  # Temp clones only: a local CORTEX_SRC_REPO / MOCA_SRC_REPO is never removed.
+  trap 'rm -rf ${TMP:+"$TMP"} "$MOCA_SRC" ${MOCA_STAGE:+"$MOCA_STAGE"}; [[ -n "${CORTEX_SRC_REPO:-}" ]] || rm -rf "$CORTEX_SRC"' EXIT
+  git clone --depth 1 --branch "$MOCA_REF" --filter=blob:none --sparse "$MOCA_REPO_URL" "$MOCA_SRC"
+  git -C "$MOCA_SRC" sparse-checkout set docs
+  MOCA_DESC="rossoctl/moca@$MOCA_REF ($(git -C "$MOCA_SRC" rev-parse --short HEAD))"
+fi
+rm -rf "$MOCA_DEST"
+if [[ ! -f "$MOCA_SRC/docs/index.md" ]]; then
+  echo "!! moca: docs/index.md not found in $MOCA_DESC: Moca section skipped." >&2
+else
+  MOCA_STAGE="$(mktemp -d)"
+  excludes=(--exclude '.DS_Store' --exclude '/_internal')
+  for x in "${MOCA_EXCLUDED[@]}"; do excludes+=(--exclude "/$x"); done
+  rsync -a "${excludes[@]}" "$MOCA_SRC/docs/" "$MOCA_STAGE/"
+
+  # The guard always checks the internal-deployment names (SBXn), with or
+  # without a denylist file upstream.
+  patterns="$(mktemp)"
+  echo 'SBX[0-9]' > "$patterns"
+  if [[ -f "$MOCA_STAGE/.publish-denylist" ]]; then
+    grep -vE '^[[:space:]]*(#|$)' "$MOCA_STAGE/.publish-denylist" >> "$patterns" || true
+    rm -f "$MOCA_STAGE/.publish-denylist"
+  fi
+  leaks="$(grep -rIlE -f "$patterns" "$MOCA_STAGE" | sed "s#^$MOCA_STAGE/#docs/#" | sort || true)"
+  rm -f "$patterns"
+  if [[ -n "$leaks" ]]; then
+    count="$(printf '%s\n' "$leaks" | wc -l | tr -d ' ')"
+    echo "::warning title=Moca docs not published::$count file(s) in $MOCA_DESC match the publish denylist (SBXn, plus docs/.publish-denylist); the Moca section is skipped." >&2
+    printf '%s\n' "$leaks" | sed 's/^/!!   /' >&2
+    rm -rf "$MOCA_STAGE"
+  else
+    # Relative links that leave the published tree (to ../../deploy/..., the
+    # packages, or an excluded folder) would break on the site: point them at
+    # the file on GitHub instead.
+    node "$SCRIPT_DIR/rewrite-repo-links.mjs" "$MOCA_STAGE" docs "$MOCA_GH_BASE" "${MOCA_EXCLUDED[@]}"
+    mv "$MOCA_STAGE" "$MOCA_DEST"
+    echo "==> moca/ mirrors $MOCA_DESC:docs ($(find "$MOCA_DEST" -type f | wc -l | tr -d ' ') files)."
+  fi
+fi
