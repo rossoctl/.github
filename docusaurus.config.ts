@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import type {Config, PluginConfig} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // === Versioning ===
@@ -20,6 +20,28 @@ const releasedVersions: string[] = fs.existsSync(versionsFile)
   ? JSON.parse(fs.readFileSync(versionsFile, 'utf8'))
   : [];
 const LATEST_VERSION = releasedVersions[0];
+
+// === Moca ===
+// moca/ is synced from rossoctl/moca:docs/ by scripts/sync-docs.sh (git-ignored).
+// The sync skips it when the content fails the publish guard, so the Moca docs
+// instance and its navbar item exist only when moca/index.md does: a skipped
+// sync builds the site exactly as before.
+const MOCA_ENABLED = fs.existsSync(path.join(__dirname, 'moca', 'index.md'));
+const mocaPlugins: PluginConfig[] = MOCA_ENABLED
+  ? [
+      [
+        '@docusaurus/plugin-content-docs',
+        {
+          id: 'moca',
+          path: 'moca',
+          routeBasePath: 'moca',
+          sidebarPath: './sidebarsMoca.ts',
+          editUrl: ({docPath}: {docPath: string}) =>
+            `https://github.com/rossoctl/moca/edit/main/docs/${docPath}`,
+        },
+      ],
+    ]
+  : [];
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -208,6 +230,10 @@ const config: Config = {
         editUrl: 'https://github.com/rossoctl/.github/tree/main/',
       },
     ],
+    // Moca docs instance: content synced from rossoctl/moca:docs/ into moca/
+    // by scripts/sync-docs.sh, served at /moca/*. Unversioned: it tracks moca's
+    // main branch, which the banner in src/theme/DocVersionBanner says.
+    ...mocaPlugins,
     // Copies cortex/ (synced by scripts/sync-docs.sh) to build/cortex/, so
     // /cortex/install.sh is served as a real file. `static/` can't be used:
     // it's committed, and this file must not be.
@@ -267,6 +293,18 @@ const config: Config = {
           position: 'left',
           label: 'Contributing',
         },
+        // Moca section, present only when moca/ was synced (see MOCA_ENABLED).
+        ...(MOCA_ENABLED
+          ? [
+              {
+                type: 'docSidebar' as const,
+                sidebarId: 'mocaSidebar',
+                docsPluginId: 'moca',
+                position: 'left' as const,
+                label: 'Moca',
+              },
+            ]
+          : []),
         {
           // EXTERNAL blog — opens in a new tab.
           href: 'https://medium.com/rossoctl-the-agentic-platform',
