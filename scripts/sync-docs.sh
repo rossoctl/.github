@@ -174,9 +174,17 @@ else
     grep -vE '^[[:space:]]*(#|$)' "$MOCA_STAGE/.publish-denylist" >> "$patterns" || true
     rm -f "$MOCA_STAGE/.publish-denylist"
   fi
-  leaks="$(grep -rIlE -f "$patterns" "$MOCA_STAGE" | sed "s#^$MOCA_STAGE/#docs/#" | sort || true)"
+  # grep's status decides: 0 = a match (a leak), 1 = no match (clean), 2 or more = the scan
+  # itself failed (a malformed pattern in the denylist, an unreadable file), which says
+  # nothing about the content. Only 1 publishes: a failed scan is never a clean one.
+  scan_status=0
+  leaks="$(grep -rIlE -f "$patterns" "$MOCA_STAGE")" || scan_status=$?
   rm -f "$patterns"
-  if [[ -n "$leaks" ]]; then
+  if ((scan_status > 1)); then
+    echo "::error title=Moca docs not published::the publish-denylist scan of $MOCA_DESC failed (grep exit $scan_status; a malformed pattern in docs/.publish-denylist?); the Moca section is skipped." >&2
+    rm -rf "$MOCA_STAGE"
+  elif ((scan_status == 0)); then
+    leaks="$(printf '%s\n' "$leaks" | sed "s#^$MOCA_STAGE/#docs/#" | sort)"
     count="$(printf '%s\n' "$leaks" | wc -l | tr -d ' ')"
     echo "::warning title=Moca docs not published::$count file(s) in $MOCA_DESC match the publish denylist (SBXn, plus docs/.publish-denylist); the Moca section is skipped." >&2
     printf '%s\n' "$leaks" | sed 's/^/!!   /' >&2
