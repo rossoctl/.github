@@ -17,7 +17,8 @@
 #   SRC_REPO=/path/to/local/rossoctl ./scripts/sync-docs.sh # use an existing local clone
 #   CORTEX_SRC_REPO=/path/to/local/cortex ./scripts/sync-docs.sh # likewise for cortex
 #   MOCA_SRC_REPO=/path/to/local/moca ./scripts/sync-docs.sh     # likewise for moca
-#   MOCA_REF=<branch|tag> ./scripts/sync-docs.sh                   # moca ref (default: main)
+#   MOCA_REF=<branch|tag> ./scripts/sync-docs.sh                   # moca "next" ref (default: main)
+#   MOCA_RELEASE=<vX.Y.Z|none> ./scripts/sync-docs.sh              # moca release (default: the latest)
 
 set -euo pipefail
 
@@ -126,6 +127,7 @@ mkdir -p "$SITE_DIR/cortex"
 rsync -a "$CORTEX_SRC/scripts/install.sh" "$SITE_DIR/cortex/install.sh"
 echo "==> cortex/install.sh copied from ${CORTEX_SRC_REPO:-$CORTEX_REPO_URL}@$(git -C "$CORTEX_SRC" rev-parse --short HEAD)."
 
+
 # --- 4. Moca docs: rossoctl/moca:docs/ -> moca/ (served at /moca/*) -----------
 # moca/ is git-ignored and rebuilt on every sync. docusaurus.config.ts adds the
 # moca docs instance and its navbar item only when moca/index.md exists, so a
@@ -141,60 +143,152 @@ echo "==> cortex/install.sh copied from ${CORTEX_SRC_REPO:-$CORTEX_REPO_URL}@$(g
 # the names of internal deployments. Any match in the files to be published
 # skips the whole moca section, with the matching files listed: nothing is
 # published partly. The guard has no bypass; fix the content in rossoctl/moca.
+#
+# VERSIONS: two refs are published, each through the same guard.
+#   - MOCA_REF (default: main) -> moca/, the "next" version. With no release
+#     published, it is the only version and is served at /moca/*.
+#   - The newest moca release (GitHub's "latest", a vX.Y.Z tag) ->
+#     moca_versioned_docs/version-X.Y.Z/, served at /moca/*, which moves "next"
+#     to /moca/next/*. The version files Docusaurus reads (moca_versions.json,
+#     moca_versioned_sidebars/) are written here too: nothing is committed, so
+#     a new release needs no change in this repository.
+# A release whose docs/ cannot be published (no docs/index.md, as in releases
+# older than the docs site, or a guard match) is skipped with a warning, and
+# the site publishes "next" alone. A failed lookup of the latest release fails
+# the sync, so a GitHub API outage never moves every page from /moca/* to
+# /moca/next/* and back: the deployed site stays as it was.
+#   MOCA_RELEASE=vX.Y.Z  publish that release instead of the latest one
+#   MOCA_RELEASE=none    publish "next" only (the default with MOCA_SRC_REPO)
+# The lookup uses GITHUB_TOKEN when set: without it, GitHub allows 60 calls an
+# hour per address, which a shared runner can run out of.
 MOCA_REPO_URL="${MOCA_REPO_URL:-https://github.com/rossoctl/moca.git}"
 MOCA_REF="${MOCA_REF:-main}"
-MOCA_GH_BASE="https://github.com/rossoctl/moca/blob/$MOCA_REF"
 MOCA_DEST="$SITE_DIR/moca"
 MOCA_EXCLUDED=(specs notes plans archive demos adrs)
-if [[ -n "${MOCA_SRC_REPO:-}" ]]; then
-  MOCA_SRC="$MOCA_SRC_REPO"
-  MOCA_DESC="$MOCA_SRC_REPO (local)"
-else
-  MOCA_SRC="$(mktemp -d)"
-  # Temp clones only: a local CORTEX_SRC_REPO / MOCA_SRC_REPO is never removed.
-  trap 'rm -rf ${TMP:+"$TMP"} "$MOCA_SRC" ${MOCA_STAGE:+"$MOCA_STAGE"}; [[ -n "${CORTEX_SRC_REPO:-}" ]] || rm -rf "$CORTEX_SRC"' EXIT
-  git clone --depth 1 --branch "$MOCA_REF" --filter=blob:none --sparse "$MOCA_REPO_URL" "$MOCA_SRC"
-  git -C "$MOCA_SRC" sparse-checkout set docs
-  MOCA_DESC="rossoctl/moca@$MOCA_REF ($(git -C "$MOCA_SRC" rev-parse --short HEAD))"
-fi
-rm -rf "$MOCA_DEST"
-if [[ ! -f "$MOCA_SRC/docs/index.md" ]]; then
-  echo "!! moca: docs/index.md not found in $MOCA_DESC: Moca section skipped." >&2
-else
-  MOCA_STAGE="$(mktemp -d)"
-  excludes=(--exclude '.DS_Store' --exclude '/_internal')
+MOCA_VERSIONS_FILE="$SITE_DIR/moca_versions.json"
+MOCA_VERSIONED_DOCS="$SITE_DIR/moca_versioned_docs"
+MOCA_VERSIONED_SIDEBARS="$SITE_DIR/moca_versioned_sidebars"
+# Temp dirs and files of this step. A local MOCA_SRC_REPO is never on the list.
+MOCA_TMPS=()
+trap 'rm -rf ${TMP:+"$TMP"} ${MOCA_TMPS[@]+"${MOCA_TMPS[@]}"}; [[ -n "${CORTEX_SRC_REPO:-}" ]] || rm -rf "$CORTEX_SRC"' EXIT
+
+# moca_clone REF DIR: a sparse clone of rossoctl/moca's docs/ at REF, into DIR.
+moca_clone() {
+  git clone --depth 1 --branch "$1" --filter=blob:none --sparse "$MOCA_REPO_URL" "$2"
+  git -C "$2" sparse-checkout set docs
+}
+
+# moca_publish SRC DESC GH_BASE DEST: guard SRC/docs and, if it passes, move it to
+# DEST with its out-of-tree links pointed at GH_BASE. Sets MOCA_PUBLISHED=1 when
+# DEST was written, 0 when the content was skipped.
+moca_publish() {
+  local src="$1" desc="$2" gh_base="$3" dest="$4" stage patterns leaks count x
+  local scan_status=0
+  local excludes=(--exclude '.DS_Store' --exclude '/_internal')
+  MOCA_PUBLISHED=0
+  if [[ ! -f "$src/docs/index.md" ]]; then
+    echo "!! moca: docs/index.md not found in $desc: skipped." >&2
+    return 0
+  fi
+  stage="$(mktemp -d)"
+  MOCA_TMPS+=("$stage")
   for x in "${MOCA_EXCLUDED[@]}"; do excludes+=(--exclude "/$x"); done
-  rsync -a "${excludes[@]}" "$MOCA_SRC/docs/" "$MOCA_STAGE/"
+  rsync -a "${excludes[@]}" "$src/docs/" "$stage/"
 
   # The guard always checks the internal-deployment names (SBXn), with or
   # without a denylist file upstream.
   patterns="$(mktemp)"
+  MOCA_TMPS+=("$patterns")
   echo 'SBX[0-9]' > "$patterns"
-  if [[ -f "$MOCA_STAGE/.publish-denylist" ]]; then
-    grep -vE '^[[:space:]]*(#|$)' "$MOCA_STAGE/.publish-denylist" >> "$patterns" || true
-    rm -f "$MOCA_STAGE/.publish-denylist"
+  if [[ -f "$stage/.publish-denylist" ]]; then
+    grep -vE '^[[:space:]]*(#|$)' "$stage/.publish-denylist" >> "$patterns" || true
+    rm -f "$stage/.publish-denylist"
   fi
   # grep's status decides: 0 = a match (a leak), 1 = no match (clean), 2 or more = the scan
   # itself failed (a malformed pattern in the denylist, an unreadable file), which says
   # nothing about the content. Only 1 publishes: a failed scan is never a clean one.
-  scan_status=0
-  leaks="$(grep -rIlE -f "$patterns" "$MOCA_STAGE")" || scan_status=$?
-  rm -f "$patterns"
+  leaks="$(grep -rIlE -f "$patterns" "$stage")" || scan_status=$?
   if ((scan_status > 1)); then
-    echo "::error title=Moca docs not published::the publish-denylist scan of $MOCA_DESC failed (grep exit $scan_status; a malformed pattern in docs/.publish-denylist?); the Moca section is skipped." >&2
-    rm -rf "$MOCA_STAGE"
+    echo "::error title=Moca docs not published::the publish-denylist scan of $desc failed (grep exit $scan_status; a malformed pattern in docs/.publish-denylist?); it is skipped." >&2
   elif ((scan_status == 0)); then
-    leaks="$(printf '%s\n' "$leaks" | sed "s#^$MOCA_STAGE/#docs/#" | sort)"
+    leaks="$(printf '%s\n' "$leaks" | sed "s#^$stage/#docs/#" | sort)"
     count="$(printf '%s\n' "$leaks" | wc -l | tr -d ' ')"
-    echo "::warning title=Moca docs not published::$count file(s) in $MOCA_DESC match the publish denylist (SBXn, plus docs/.publish-denylist); the Moca section is skipped." >&2
+    echo "::warning title=Moca docs not published::$count file(s) in $desc match the publish denylist (SBXn, plus docs/.publish-denylist); it is skipped." >&2
     printf '%s\n' "$leaks" | sed 's/^/!!   /' >&2
-    rm -rf "$MOCA_STAGE"
   else
     # Relative links that leave the published tree (to ../../deploy/..., the
     # packages, or an excluded folder) would break on the site: point them at
-    # the file on GitHub instead.
-    node "$SCRIPT_DIR/rewrite-repo-links.mjs" "$MOCA_STAGE" docs "$MOCA_GH_BASE" "${MOCA_EXCLUDED[@]}"
-    mv "$MOCA_STAGE" "$MOCA_DEST"
-    echo "==> moca/ mirrors $MOCA_DESC:docs ($(find "$MOCA_DEST" -type f | wc -l | tr -d ' ') files)."
+    # the file on GitHub instead, at the ref the pages come from.
+    node "$SCRIPT_DIR/rewrite-repo-links.mjs" "$stage" docs "$gh_base" "${MOCA_EXCLUDED[@]}"
+    mkdir -p "$(dirname "$dest")"
+    mv "$stage" "$dest"
+    echo "==> $(basename "$dest") mirrors $desc:docs ($(find "$dest" -type f | wc -l | tr -d ' ') files)."
+    MOCA_PUBLISHED=1
+  fi
+}
+
+# moca_latest_release: prints the tag of rossoctl/moca's latest release, or
+# nothing when it has none. Fails when GitHub cannot be asked.
+moca_latest_release() {
+  local out code
+  local auth=()
+  # Runs in a command substitution, so it removes its own temp file.
+  out="$(mktemp)"
+  [[ -z "${GITHUB_TOKEN:-}" ]] || auth=(-H "Authorization: Bearer $GITHUB_TOKEN")
+  code="$(curl -sSL -o "$out" -w '%{http_code}' ${auth[@]+"${auth[@]}"} \
+    -H 'Accept: application/vnd.github+json' \
+    https://api.github.com/repos/rossoctl/moca/releases/latest)" || code=000
+  case "$code" in
+    200) node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).tag_name ?? "")' "$out" ;;
+    404) ;; # no release published yet
+    *)
+      rm -f "$out"
+      echo "::error title=Moca release lookup failed::GitHub answered HTTP $code for rossoctl/moca's latest release (403: the rate limit without GITHUB_TOKEN?); the sync stops, so the deployed site is unchanged." >&2
+      return 1
+      ;;
+  esac
+  rm -f "$out"
+}
+
+rm -rf "$MOCA_DEST" "$MOCA_VERSIONS_FILE" "$MOCA_VERSIONED_DOCS" "$MOCA_VERSIONED_SIDEBARS"
+
+# 4a. "next": MOCA_REF, or a local clone.
+if [[ -n "${MOCA_SRC_REPO:-}" ]]; then
+  moca_publish "$MOCA_SRC_REPO" "$MOCA_SRC_REPO (local)" \
+    "https://github.com/rossoctl/moca/blob/$MOCA_REF" "$MOCA_DEST"
+else
+  MOCA_SRC="$(mktemp -d)"
+  MOCA_TMPS+=("$MOCA_SRC")
+  moca_clone "$MOCA_REF" "$MOCA_SRC"
+  moca_publish "$MOCA_SRC" "rossoctl/moca@$MOCA_REF ($(git -C "$MOCA_SRC" rev-parse --short HEAD))" \
+    "https://github.com/rossoctl/moca/blob/$MOCA_REF" "$MOCA_DEST"
+fi
+
+# 4b. The release.
+if [[ -n "${MOCA_RELEASE:-}" ]]; then
+  MOCA_TAG="$MOCA_RELEASE"
+elif [[ -n "${MOCA_SRC_REPO:-}" ]]; then
+  MOCA_TAG=none
+else
+  MOCA_TAG="$(moca_latest_release)"
+fi
+if [[ -z "$MOCA_TAG" || "$MOCA_TAG" == none ]]; then
+  echo "==> moca: no release to publish; the docs at $MOCA_REF are the only version."
+elif [[ ! "$MOCA_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "::warning title=Moca release not published::the latest release tag '$MOCA_TAG' is not vX.Y.Z; only $MOCA_REF is published." >&2
+else
+  MOCA_VERSION="${MOCA_TAG#v}"
+  MOCA_RELEASE_SRC="$(mktemp -d)"
+  MOCA_TMPS+=("$MOCA_RELEASE_SRC")
+  moca_clone "$MOCA_TAG" "$MOCA_RELEASE_SRC"
+  moca_publish "$MOCA_RELEASE_SRC" "rossoctl/moca@$MOCA_TAG" \
+    "https://github.com/rossoctl/moca/blob/$MOCA_TAG" "$MOCA_VERSIONED_DOCS/version-$MOCA_VERSION"
+  if ((MOCA_PUBLISHED)); then
+    printf '["%s"]\n' "$MOCA_VERSION" > "$MOCA_VERSIONS_FILE"
+    mkdir -p "$MOCA_VERSIONED_SIDEBARS"
+    # The same autogenerated sidebar as sidebarsMoca.ts, frozen for the version.
+    printf '{"mocaSidebar":[{"type":"autogenerated","dirName":"."}]}\n' \
+      > "$MOCA_VERSIONED_SIDEBARS/version-$MOCA_VERSION-sidebars.json"
+    echo "==> moca $MOCA_TAG is the default version at /moca/*; $MOCA_REF moves to /moca/next/*."
   fi
 fi

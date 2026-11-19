@@ -26,7 +26,21 @@ const LATEST_VERSION = releasedVersions[0];
 // The sync skips it when the content fails the publish guard, so the Moca docs
 // instance and its navbar item exist only when moca/index.md does: a skipped
 // sync builds the site exactly as before.
-const MOCA_ENABLED = fs.existsSync(path.join(__dirname, 'moca', 'index.md'));
+//
+// Versions: the sync also publishes the newest moca release, writing
+// moca_versions.json and the moca_versioned_* folders (git-ignored, like moca/):
+//
+//   the newest release -> /moca/*       labelled "vX.Y.Z"
+//   moca/ (main)       -> /moca/next/*  labelled "next"
+//
+// With no publishable release, moca/ is the only version and stays at /moca/*.
+// src/theme/DocVersionBanner says which one a reader is on.
+const mocaVersionsFile = path.join(__dirname, 'moca_versions.json');
+const MOCA_RELEASE: string | undefined = fs.existsSync(mocaVersionsFile)
+  ? JSON.parse(fs.readFileSync(mocaVersionsFile, 'utf8'))[0]
+  : undefined;
+const MOCA_NEXT = fs.existsSync(path.join(__dirname, 'moca', 'index.md'));
+const MOCA_ENABLED = MOCA_NEXT || MOCA_RELEASE !== undefined;
 const mocaPlugins: PluginConfig[] = MOCA_ENABLED
   ? [
       [
@@ -36,8 +50,24 @@ const mocaPlugins: PluginConfig[] = MOCA_ENABLED
           path: 'moca',
           routeBasePath: 'moca',
           sidebarPath: './sidebarsMoca.ts',
-          editUrl: ({docPath}: {docPath: string}) =>
-            `https://github.com/rossoctl/moca/edit/main/docs/${docPath}`,
+          // A release's pages are fixed at its tag: link the file there. Fixes
+          // go to main, and so into the next release.
+          editUrl: ({version, docPath}: {version: string; docPath: string}) =>
+            version === 'current'
+              ? `https://github.com/rossoctl/moca/edit/main/docs/${docPath}`
+              : `https://github.com/rossoctl/moca/blob/v${version}/docs/${docPath}`,
+          ...(MOCA_RELEASE
+            ? {
+                lastVersion: MOCA_RELEASE,
+                // main failed the publish guard while the release passed it:
+                // publish the release alone rather than nothing.
+                includeCurrentVersion: MOCA_NEXT,
+                versions: {
+                  [MOCA_RELEASE]: {label: `v${MOCA_RELEASE}`, path: ''},
+                  ...(MOCA_NEXT ? {current: {label: 'next', path: 'next'}} : {}),
+                },
+              }
+            : {}),
         },
       ],
     ]
@@ -192,7 +222,13 @@ const config: Config = {
 
   plugins: [
     // Offline, build-time full-text search. No external service.
-    [require.resolve('docusaurus-lunr-search'), {languages: ['en']}],
+    // Moca's "next" pages repeat the release's, so only the release is indexed
+    // once there is one: a search finds each page once, in the version most
+    // readers run.
+    [
+      require.resolve('docusaurus-lunr-search'),
+      {languages: ['en'], excludeRoutes: MOCA_RELEASE && MOCA_NEXT ? ['/moca/next/**'] : []},
+    ],
     // Dedicated docs instance for the Contributing section, so /contributing
     // renders with the SAME layout as docs (breadcrumb, content position,
     // typography) instead of a bespoke standalone page. Same pattern llm-d
@@ -230,9 +266,8 @@ const config: Config = {
         editUrl: 'https://github.com/rossoctl/.github/tree/main/',
       },
     ],
-    // Moca docs instance: content synced from rossoctl/moca:docs/ into moca/
-    // by scripts/sync-docs.sh, served at /moca/*. Unversioned: it tracks moca's
-    // main branch, which the banner in src/theme/DocVersionBanner says.
+    // Moca docs instance: content synced from rossoctl/moca by
+    // scripts/sync-docs.sh, served at /moca/* (see "=== Moca ===" above).
     ...mocaPlugins,
     // Copies cortex/ (synced by scripts/sync-docs.sh) to build/cortex/, so
     // /cortex/install.sh is served as a real file. `static/` can't be used:

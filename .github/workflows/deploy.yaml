@@ -46,6 +46,9 @@ jobs:
         run: npm ci
 
       - name: Sync docs from rossoctl/rossoctl and rossoctl/moca, installer from rossoctl/cortex
+        # The token is for the lookup of moca's latest release (read-only, public).
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: npm run sync-docs
 
       - name: Build
