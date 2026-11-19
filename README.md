@@ -25,7 +25,7 @@ The **Moca** section (`/moca/*`) is synced the same way, from the `docs/` folder
 [`rossoctl/moca`](https://github.com/rossoctl/moca), into `moca/` (git-ignored):
 
 - The sync leaves out moca's design records: `specs/`, `notes/`, `plans/`, `archive/`, `demos/`,
-  `adrs/` and `REORG-PLAN.md`. They are kept off the pages and out of search.
+  and `adrs/`. They are kept off the pages and out of search.
 - Relative links that leave the published tree are rewritten to the file on GitHub
   (`scripts/rewrite-repo-links.mjs`).
 - **Publish guard.** If any file to be published matches moca's denylist, the whole Moca section

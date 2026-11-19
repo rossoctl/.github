@@ -132,7 +132,7 @@ echo "==> cortex/install.sh copied from ${CORTEX_SRC_REPO:-$CORTEX_REPO_URL}@$(g
 # skipped sync leaves the site exactly as it was without Moca.
 #
 # Published from moca's docs/ is the user documentation only. Its design
-# records (specs/, notes/, plans/, archive/, demos/, adrs/, REORG-PLAN.md) stay
+# records (specs/, notes/, plans/, archive/, demos/, adrs/) stay
 # in that repository; excluding them here keeps them out of the pages AND the
 # search index, not just the sidebar.
 #
@@ -145,7 +145,7 @@ MOCA_REPO_URL="${MOCA_REPO_URL:-https://github.com/rossoctl/moca.git}"
 MOCA_REF="${MOCA_REF:-main}"
 MOCA_GH_BASE="https://github.com/rossoctl/moca/blob/$MOCA_REF"
 MOCA_DEST="$SITE_DIR/moca"
-MOCA_EXCLUDED=(specs notes plans archive demos adrs REORG-PLAN.md)
+MOCA_EXCLUDED=(specs notes plans archive demos adrs)
 if [[ -n "${MOCA_SRC_REPO:-}" ]]; then
   MOCA_SRC="$MOCA_SRC_REPO"
   MOCA_DESC="$MOCA_SRC_REPO (local)"
