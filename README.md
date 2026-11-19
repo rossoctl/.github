@@ -33,9 +33,16 @@ The **Moca** section (`/moca/*`) is synced the same way, from the `docs/` folder
   `SBX[0-9]` plus the patterns in `docs/.publish-denylist`. With no `moca/index.md`, the site
   builds without the Moca instance and its navbar item. Fix the content in `rossoctl/moca`: there
   is no bypass.
-- The pages track moca's `main`, and a banner on every Moca page says so
-  (`src/theme/DocVersionBanner`).
-- A push to `docs/` in `rossoctl/moca` sends the same `docs-updated` dispatch.
+- **Versions.** The sync also publishes moca's newest release (GitHub's "latest", a `vX.Y.Z`
+  tag), through the same guard. It is served at `/moca/*`, and `main` moves to `/moca/next/*`,
+  which search does not index. The sync writes the version files (`moca_versions.json`,
+  `moca_versioned_docs/`, `moca_versioned_sidebars/`, git-ignored), so a new release needs no
+  change here. Until a release passes the guard (v0.10.0 does not), `main` is the only version,
+  at `/moca/*`. A failed lookup of the latest release fails the sync, so the deployed site stays
+  as it was. A banner on every Moca page says which version it is, and links the same page in the
+  other (`src/theme/DocVersionBanner`).
+- A push to `docs/` in `rossoctl/moca`, and a published moca release, send the same
+  `docs-updated` dispatch.
 
 ## Running and testing locally
 
@@ -65,9 +72,11 @@ npm ci
 npm run sync-docs
 #    b) ...or from a local rossoctl clone, to preview edits you haven't pushed:
 SRC_REPO=/path/to/rossoctl npm run sync-docs
-#    c) Moca from a local clone or another ref (default: rossoctl/moca@main):
+#    c) Moca from a local clone or another ref (default: rossoctl/moca@main),
+#       and a release (default: the latest, none with MOCA_SRC_REPO):
 MOCA_SRC_REPO=/path/to/moca npm run sync-docs
 MOCA_REF=<branch-or-tag> npm run sync-docs
+MOCA_RELEASE=<vX.Y.Z|none> npm run sync-docs
 
 # 3. Run the dev server with hot reload (docs must be synced first — step 2)
 npm start            # http://localhost:3000/.github/  (Ctrl+C to stop)
@@ -97,6 +106,7 @@ set `baseUrl: '/'` in `docusaurus.config.ts` and add `static/CNAME`.
 | `ecosystem/` | Landing + ecosystem guide (served at `/`) |
 | `docs/` | **Synced** from `rossoctl/rossoctl:docs/` (git-ignored) |
 | `moca/` | **Synced** from `rossoctl/moca:docs/` behind the publish guard (git-ignored) |
+| `moca_versions.json`, `moca_versioned_*/` | **Synced** moca release, from its tag (git-ignored) |
 | `contributing/` | Contributing docs instance |
 | `src/`, `static/` | Theme customizations, CSS, and assets |
 | `scripts/sync-docs.sh` | Docs sync from the source repos |

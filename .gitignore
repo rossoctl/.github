@@ -13,6 +13,9 @@
 /contributing/index.md
 /cortex
 /moca
+/moca_versions.json
+/moca_versioned_docs
+/moca_versioned_sidebars
 
 # --- Misc / editor ---
 .DS_Store
