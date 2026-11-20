@@ -269,6 +269,40 @@ const config: Config = {
     // Moca docs instance: content synced from rossoctl/moca by
     // scripts/sync-docs.sh, served at /moca/* (see "=== Moca ===" above).
     ...mocaPlugins,
+    // Moca explainers: docs/**/*.html in rossoctl/moca are self-contained
+    // pages the docs plugin does not route. Copy them next to the page that
+    // links them, in every published version (see "=== Moca ===" above).
+    ...(MOCA_ENABLED
+      ? [
+          () => ({
+            name: 'moca-html-pages',
+            postBuild: async ({outDir}: {outDir: string}) => {
+              const copyHtml = (from: string, to: string) => {
+                if (!fs.existsSync(from)) return;
+                // Never replace a page the docs plugin built: a source
+                // docs/**/index.html would otherwise silently win over index.md.
+                fs.cpSync(from, to, {
+                  recursive: true,
+                  force: false,
+                  errorOnExist: true,
+                  filter: (src) =>
+                    fs.statSync(src).isDirectory() || src.endsWith('.html'),
+                });
+              };
+              if (MOCA_RELEASE) {
+                copyHtml(
+                  path.join(__dirname, 'moca_versioned_docs', `version-${MOCA_RELEASE}`),
+                  path.join(outDir, 'moca'),
+                );
+                if (MOCA_NEXT)
+                  copyHtml(path.join(__dirname, 'moca'), path.join(outDir, 'moca', 'next'));
+              } else {
+                copyHtml(path.join(__dirname, 'moca'), path.join(outDir, 'moca'));
+              }
+            },
+          }),
+        ]
+      : []),
     // Copies cortex/ (synced by scripts/sync-docs.sh) to build/cortex/, so
     // /cortex/install.sh is served as a real file. `static/` can't be used:
     // it's committed, and this file must not be.
