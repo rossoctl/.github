@@ -279,8 +279,12 @@ const config: Config = {
             postBuild: async ({outDir}: {outDir: string}) => {
               const copyHtml = (from: string, to: string) => {
                 if (!fs.existsSync(from)) return;
+                // Never replace a page the docs plugin built: a source
+                // docs/**/index.html would otherwise silently win over index.md.
                 fs.cpSync(from, to, {
                   recursive: true,
+                  force: false,
+                  errorOnExist: true,
                   filter: (src) =>
                     fs.statSync(src).isDirectory() || src.endsWith('.html'),
                 });
