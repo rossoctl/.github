@@ -3,7 +3,8 @@
 #   1. docs/       -> the site's docs/ (rendered as the Docs section)
 #   2. CONTRIBUTING.md  -> the site's contributing/index.md (Contributing page)
 # and from rossoctl/cortex:
-#   3. scripts/install.sh -> the site's cortex/install.sh (served at /cortex/install.sh)
+#   3. scripts/install.sh and scripts/install.ps1 -> the site's cortex/ (served at
+#      /cortex/install.sh and /cortex/install.ps1)
 # and from rossoctl/moca:
 #   4. docs/       -> the site's moca/ (the Moca section, served at /moca/*), behind a
 #                     publish guard (see step 4)
@@ -113,8 +114,8 @@ else
   echo "!! CONTRIBUTING.md not found at $CONTRIB_SRC (skipped Contributing page)." >&2
 fi
 
-# --- 3. Cortex installer: copy scripts/install.sh -> cortex/install.sh -------
-# Fatal if missing: a published URL without the file would serve HTML to `sh`.
+# --- 3. Cortex installers: copy scripts/install.sh and install.ps1 -> cortex/ --
+# Fatal if missing: a published URL without the file would serve HTML to `sh` or `iex`.
 if [[ -n "${CORTEX_SRC_REPO:-}" ]]; then
   CORTEX_SRC="$CORTEX_SRC_REPO"
 else
@@ -125,7 +126,8 @@ else
 fi
 mkdir -p "$SITE_DIR/cortex"
 rsync -a "$CORTEX_SRC/scripts/install.sh" "$SITE_DIR/cortex/install.sh"
-echo "==> cortex/install.sh copied from ${CORTEX_SRC_REPO:-$CORTEX_REPO_URL}@$(git -C "$CORTEX_SRC" rev-parse --short HEAD)."
+rsync -a "$CORTEX_SRC/scripts/install.ps1" "$SITE_DIR/cortex/install.ps1"
+echo "==> cortex/install.sh and cortex/install.ps1 copied from ${CORTEX_SRC_REPO:-$CORTEX_REPO_URL}@$(git -C "$CORTEX_SRC" rev-parse --short HEAD)."
 
 
 # --- 4. Moca docs: rossoctl/moca:docs/ -> moca/ (served at /moca/*) -----------

@@ -8,7 +8,8 @@
 # committed here, regenerated on every build:
 #   docs/           <- rossoctl/rossoctl:docs/  (Docs section)
 #   contributing/index.md <- rossoctl/rossoctl:CONTRIBUTING.md (Contributing page)
-#   cortex/         <- rossoctl/cortex:scripts/install.sh (served at /cortex/install.sh)
+#   cortex/         <- rossoctl/cortex:scripts/install.sh and install.ps1 (served at
+#                      /cortex/install.sh and /cortex/install.ps1)
 /docs
 /contributing/index.md
 /cortex
